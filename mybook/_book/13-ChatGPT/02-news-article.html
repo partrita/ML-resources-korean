@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>진행 과정 – 기계학습 공부 자료들</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../01-Kaggle/01-Kaggle/01-titanic/titanic-data-analysis-V1.html" rel="next">
+<link href="../13-ChatGPT/01-chatgpt.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3778d3e438078121318a23701f9f68bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../12-HuggingFace/01-Text-Classification-Simple.html">NLP &amp; Generative AI</a></li><li class="breadcrumb-item"><a href="../13-ChatGPT/02-news-article.html"><span class="chapter-title">진행 과정</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">기계학습 공부 자료들</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">환영합니다</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Python Foundation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/01-파이썬-자료구조.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">파이썬의 철학</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/02-파이썬-리스트-튜플.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">시퀀스, 집합형 자료구조</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/03-파이썬-세트-딕셔너리.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">시퀀스, 집합형 자료구조</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/04-파이썬-문자열.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">문자열</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/05-파이썬-연산.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">연산</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/06-파이썬-비교-논리-삼항연산자-조건문.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">비교연산자</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/07-파이썬-반복문.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">반복문</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/08-파이썬-Comprehension.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Comprehension 문법</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/09-파이썬-함수.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">함수(function)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/10-파이썬-내장함수.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">내장함수(built-in function)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/11-파이썬-패키지-모듈.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">패키지와 모듈의 관계</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/12-파이썬-클래스-상속.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Python의 Class와 상속(inheritance)의 개념</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Analysis &amp; Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/01-10mins-to-pandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">pandas 모듈 import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/02-pandas-interpolation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">보간 (Interpolation)을 활용한 결측치 대입</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/03-입찰공고-데이터분석.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">성공적인 입찰을 위한 데이터 분석 (토건, 토목, 시공 편)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/04-코사인유사도-주식패턴.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">패키지 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06-Visualization/01-pandas-visualization-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06-Visualization/02-matplotlib-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06-Visualization/03-seaborn-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Scikit-Learn Machine Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/01-최소제곱법-(OrdinaryLeastSquares)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">최소제곱법 (Least Ordinary Squares)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/02-경사하강법-(Gradient-Descent)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">경사하강법 (Gradient Descent)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/03-데이터셋-(Dataset)-다루기-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터 셋 (Dataset) 다루기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/04-데이터전처리-(Preprocessing)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">표준화 (Standardization)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/05-분류-(Classifications)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">분류 (Classification)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/06-회귀-(regression)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">회귀 (regression)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/07-logistic-regression-분류-평가지표-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Logistic Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/08-결정트리-(DecisionTree)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">결정트리 or 의사결정나무 (Decision Tree)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/09-앙상블-(Ensemble)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">앙상블(Ensemble)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/10-비지도학습-(UnsupervisedLearning)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">비지도 학습 (Unsupervised Learning)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PyTorch Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/00-텐서의-기초.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">스칼라, 벡터, 메트릭스, 텐서</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/01-텐서를-생성하는-다양한방법.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torch import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/02-경사하강법-구현.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/03-pytorch로-경사하강법-구현.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyTorch로 경사하강법(Gradient Descent) 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/04-DataSet과-DataLoader.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Case 1. 내장(built-in) 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/05-정형데이터-예측모델생성.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/06-정형데이터-예측모델생성-subclassing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/07-torchvision-transform.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">모듈 import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/08-dnn-fashion-mnist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torch.utils.data.DataLoader</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/09-cnn-rps.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">train / validation 데이터셋 split</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/10-transfer-learning-cats-vs-dogs.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">train / validation 데이터셋 split</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/11-custom-image-loader.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터셋 다운로드 및 압축 해제</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/12-alexnet-implementation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">AlexNet 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/13-image-transforms.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">이미지 증강(Image Augmentation) 적용하기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/14-GoogleNet-Inception-Module.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GoogLeNet의 Inception Module 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/16-torchtext-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torchtext 튜토리얼</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/17-embedding-lstm-text-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터프레임(DataFrame) 커스텀 데이터셋 클래스</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/23-seq2seq-챗봇.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">모듈 import &amp; 데이터 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/24-seq2seq-with-attention-chatbot.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. 데이터 전처리</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">TensorFlow Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/01_Simple_Linear_Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">김성훈 교수님의 “모두를 위한 딥러닝”의 강좌를 참고 하였습니다.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/02_Multi_Variable_Linear_Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">02_Multi_Variable_Linear_Regression.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/03_Logistic_Regression_With_Mnist_Data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">03_Logistic_Regression_With_Mnist_Data.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/04_TensorBoard_Example.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">04_TensorBoard_Example.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/05_Convolution_Neural_Network_With_Mnist_Dataset.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">05_Convolution_Neural_Network_With_Mnist_Dataset.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/01-삼성전자-주가예측/LSTM을_활용한_삼성전자_주가예측.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">날짜형 컬럼으로 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/03-tensorboard/TensorBoard_사용법.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터 로드 &amp; 전처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/04-transfer-learning/cats_vs_dogs-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/05-auto-encoder/01-basic-auto-encoder-MNIST.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/06-gradient-tape/GradientTape.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플데이터 로드 (mnist)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/07-generate-text/01-generate-shakespear.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">텐서플로우 RNN 텍스트 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/09-LSTM/LSTM Layer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LSTM Layer 파헤치기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/11-CNN-models/01-LeNet-5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">01-LeNet-5.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/13-chatbot/01-seq2seq-chatbot-no-attention.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Seq2Seq 모델을 활용한 챗봇 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/13-chatbot/02-seq2seq-chatbot-attention.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Seq2Seq 모델을 활용한 챗봇 생성</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">AutoML</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/00-Intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/01-Classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/02-Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/03-Association-Rules.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/04-Anomaly-Detection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Advanced Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../08-XAI/CAM.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">CAM.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../08-XAI/GRAD_CAM.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GRAD_CAM.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/01-VanillaGAN-MNIST-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Vanilla Gan Tutorial!</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/02-DCGAN-MNIST-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">DCGAN Tutorial!</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/03-pix2pix-TF-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Copyright 2019 The TensorFlow Authors.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/04-hjk-style-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">04-hjk-style-transfer.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../10-RL/HJK_DQN_R1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_DQN_R1.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../10-RL/HJK_PG_REINFORCE.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_PG_REINFORCE.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../10-RL/HJK_PG_AC.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_PG_AC.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">NLP &amp; Generative AI</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../12-HuggingFace/01-Text-Classification-Simple.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터셋 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../12-HuggingFace/03-huggingface-bert-kor-text-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">토큰화가 적용된 데이터셋</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../13-ChatGPT/01-chatgpt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">openai 관련 설정</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../13-ChatGPT/02-news-article.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">진행 과정</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Kaggle Competitions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01-Kaggle/01-Kaggle/01-titanic/titanic-data-analysis-V1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">titanic-data-analysis-V1.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01-Kaggle/01-Kaggle/01-titanic/titanic-preprocessing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01-Kaggle/01-Kaggle/01-titanic/titanic-randomforest-0.80382.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">titanic-randomforest-0.80382.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#beautifulsoup4-requests-로-크롤링-시도" id="toc-beautifulsoup4-requests-로-크롤링-시도" class="nav-link active" data-scroll-target="#beautifulsoup4-requests-로-크롤링-시도">beautifulsoup4 + requests 로 크롤링 시도</a></li>
+  <li><a href="#selenium-으로-크롤링" id="toc-selenium-으로-크롤링" class="nav-link" data-scroll-target="#selenium-으로-크롤링">Selenium 으로 크롤링</a></li>
+  <li><a href="#openai-api-사용" id="toc-openai-api-사용" class="nav-link" data-scroll-target="#openai-api-사용">OpenAI API 사용</a></li>
+  <li><a href="#파파고-번역" id="toc-파파고-번역" class="nav-link" data-scroll-target="#파파고-번역">파파고 번역</a></li>
+  <li><a href="#최종-뉴스기사-크롤링요약번역-코드" id="toc-최종-뉴스기사-크롤링요약번역-코드" class="nav-link" data-scroll-target="#최종-뉴스기사-크롤링요약번역-코드">최종 뉴스기사 크롤링+요약+번역 코드</a></li>
+  <li><a href="#더-나아가서" id="toc-더-나아가서" class="nav-link" data-scroll-target="#더-나아가서">더 나아가서</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../12-HuggingFace/01-Text-Classification-Simple.html">NLP &amp; Generative AI</a></li><li class="breadcrumb-item"><a href="../13-ChatGPT/02-news-article.html"><span class="chapter-title">진행 과정</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">진행 과정</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<ol type="1">
+<li>investing.com의 뉴스기사(본문) 크롤링.</li>
+<li>chatgpt 에 요약 요청.</li>
+<li>요약을 한글로 변환.</li>
+</ol>
+<section id="beautifulsoup4-requests-로-크롤링-시도" class="level2">
+<h2 class="anchored" data-anchor-id="beautifulsoup4-requests-로-크롤링-시도">beautifulsoup4 + requests 로 크롤링 시도</h2>
+<ul>
+<li>시도를 해봤으나 사이트에서 requests + beautifulsoup4 를 사용한 크롤링 시도가 막혀 있어서 <strong>사용이 불가</strong>했습니다.</li>
+</ul>
+<p>실행하기 위한 설치코드</p>
+<div id="69a9cb15" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install beautifulsoup4</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install requests</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>요청을 위한 코드</p>
+<div id="33891407" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup <span class="im">as</span> bs</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fake_useragent <span class="im">import</span> UserAgent</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># user-agent 설정</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ua <span class="op">=</span> UserAgent()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">'User-Agent'</span>:<span class="bu">str</span>(ua.chrome)}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 요청하고자 하는 샘플 뉴스기사 URL</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://www.investing.com/analysis/us-stock-market-has-plenty-of-reasons-to-rally-after-feds-decision-200634857'</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># requests 요청</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>page <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>page</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="46">
+<pre><code>&lt;Response [403]&gt;</code></pre>
+</div>
+</div>
+<p>결과는 <code>403</code> response가 뜨는 것을 확인할 수 있습니다.</p>
+<p>따라서, <code>selenium</code> 으로 크롤링을 진행하는 것으로 우회하도록 하겠습니다.</p>
+</section>
+<section id="selenium-으로-크롤링" class="level2">
+<h2 class="anchored" data-anchor-id="selenium-으로-크롤링">Selenium 으로 크롤링</h2>
+<p><code>Selenium</code> 설치 코드</p>
+<div id="d0ca526f" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install selenium</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="623eb1af" class="cell" data-execution_count="54">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> webdriver_manager.chrome <span class="im">import</span> ChromeDriverManager</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.chrome.service <span class="im">import</span> Service</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 크롬드라이버 셋팅</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_chrome_driver(headless<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> headless:</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        options.add_argument(<span class="st">'headless'</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    options.add_argument(<span class="st">"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    driver <span class="op">=</span> webdriver.Chrome(service<span class="op">=</span>Service(ChromeDriverManager().install()), options<span class="op">=</span>options)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> driver</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>set_chrome_driver</code>는 chrome 드라이버를 셋업하는 함수입니다.</p>
+<p>만약 로컬에 chromedriver가 존재하지 않으면 알아서 <strong>올바른 버전을 다운로드</strong> 진행하게 됩니다(이전에는 chromedriver를 직접 다운로드 했었어야 합니다).</p>
+<div id="cdee1fcd" class="cell" data-execution_count="55">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># driver 설정</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> set_chrome_driver(<span class="va">False</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># URL 요청</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>driver.get(url)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># aritivlePage는 신문기사의 본문입니다</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>article_page <span class="op">=</span> driver.find_element(By.CLASS_NAME, <span class="st">'articlePage'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>article_page</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<pre><code>&lt;selenium.webdriver.remote.webelement.WebElement (session="d0e6dbbcd5f3fa889cfa228f445c9576", element="0053d389-fa03-426c-b735-52c2dc17e736")&gt;</code></pre>
+</div>
+</div>
+<p>아래의 코드를 실행하여 신문기사의 본문이 잘 크롤링 되었는지 확인합니다.</p>
+<div id="4cc7580c" class="cell" data-execution_count="56">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 신문기사의 본문을 출력합니다.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(article_page.text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Francesco Casarella/Investing.com
+Articles (31)
+Follow
+  US500
+-0.53%
+Markets are cautious ahead of the Fed
+After a tumultuous 2022, many investors are waiting on the sidelines, holding cash and waiting to enter
+With risk-off sentiment dominating and plenty of liquidity on the sidelines, markets could rally in the second half of the week
+Yesterday, the S&amp;P 500 closed lower. This is nothing new, considering the same thing happened the last three times Powell spoke.
+S&amp;P 500 Daily Chart
+I don't expect any surprises. A 25bp hike and Powell maintaining his stance on fighting inflation ("we're improving, but it's not time to rest yet") is likely. As always, the markets are pricing in such a scenario.
+In the meantime, while the focus is still on the recession and earnings (we will have a dedicated analysis as soon as the quarters are over), there are other situations worthy of consideration.
+Cash Levels at All-Time Highs
+After the sell-off in 2022, there is still a lot of liquidity on the sidelines that needs to be deployed. We can see above that several funds are at record highs not seen for years (curiously, they were also at very high levels in 2009 as the market recovered from the subprime bubble).
+The buyback announcements made by various companies in January could help support prices.
+US Share Buyback Authorizations
+Generally, we are not seeing the euphoria typical of bubble bursts, where the collapse comes after markets are taken by surprise.
+After a year like 2022, the markets are already negative as far as sentiment is concerned, and if we look at the chart below, we can see that traders are still in a risk-off mode.
+Usually, when traders are negative, there is a lot of caution, and as a result, it is difficult to be caught off guard if the market declines further.
+Risk Off/Risk On Sentiment
+However, the surprise could come from the opposite direction. A continuation of the rally could generate a buying frenzy in a self-reinforcing mechanism between closing shorts and new buying.
+In this sense, this week will not be so much about the FOMC's decision on the size of the hike, nor even about Powell's words (which I think will be confirmed as hawkish).
+Instead, it will be about how the markets react in the second half of the week and the week after.
+Disclaimer: This article is written for informational purposes only; it does not constitute a solicitation, offer, advice, counseling, or recommendation to invest as such it is not intended to incentivize the purchase of assets in any way. I want to remind you that any type of asset is evaluated from multiple points of view and is highly risky; therefore, any investment decision and the associated risk remain with the investor.</code></pre>
+</div>
+</div>
+</section>
+<section id="openai-api-사용" class="level2">
+<h2 class="anchored" data-anchor-id="openai-api-사용">OpenAI API 사용</h2>
+<p><strong>API KEY 발급 방법</strong> - API KEY 신청 주소 - https://beta.openai.com/ 회원 가입 후 - https://beta.openai.com/account/api-keys - create new secret key</p>
+<p><code>openai</code> 라이브러리 설치코드</p>
+<div id="a04a0011" class="cell" data-execution_count="51">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install openai</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>먼저 <code>openai</code> 라이브러리 import 후 <strong>API KEY</strong>를 설정 합니다.</p>
+<div id="0b0c8a5e" class="cell" data-execution_count="57">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openai</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># API 키 설정</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>openai.api_key <span class="op">=</span> <span class="st">"OpenAI API Key 입력"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>요약 및 긍/부정 감정 분석을 진행하는 프롬프트를 생성하여 출력 합니다.</p>
+<div id="249cd651" class="cell" data-execution_count="58">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 프롬프트 (요약해줘 + 긍/부정 감정도 분석해줘)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="ss">f'''</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ss">Summarize the paragraph below and interpret whether it is a positive or negative sentiment.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="sc">{</span>article_page<span class="sc">.</span>text<span class="sc">}</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="ss">'''</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(prompt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Summarize the paragraph below and interpret whether it is a positive or negative sentiment.
+
+Francesco Casarella/Investing.com
+Articles (31)
+Follow
+  US500
+-0.53%
+Markets are cautious ahead of the Fed
+After a tumultuous 2022, many investors are waiting on the sidelines, holding cash and waiting to enter
+With risk-off sentiment dominating and plenty of liquidity on the sidelines, markets could rally in the second half of the week
+Yesterday, the S&amp;P 500 closed lower. This is nothing new, considering the same thing happened the last three times Powell spoke.
+S&amp;P 500 Daily Chart
+I don't expect any surprises. A 25bp hike and Powell maintaining his stance on fighting inflation ("we're improving, but it's not time to rest yet") is likely. As always, the markets are pricing in such a scenario.
+In the meantime, while the focus is still on the recession and earnings (we will have a dedicated analysis as soon as the quarters are over), there are other situations worthy of consideration.
+Cash Levels at All-Time Highs
+After the sell-off in 2022, there is still a lot of liquidity on the sidelines that needs to be deployed. We can see above that several funds are at record highs not seen for years (curiously, they were also at very high levels in 2009 as the market recovered from the subprime bubble).
+The buyback announcements made by various companies in January could help support prices.
+US Share Buyback Authorizations
+Generally, we are not seeing the euphoria typical of bubble bursts, where the collapse comes after markets are taken by surprise.
+After a year like 2022, the markets are already negative as far as sentiment is concerned, and if we look at the chart below, we can see that traders are still in a risk-off mode.
+Usually, when traders are negative, there is a lot of caution, and as a result, it is difficult to be caught off guard if the market declines further.
+Risk Off/Risk On Sentiment
+However, the surprise could come from the opposite direction. A continuation of the rally could generate a buying frenzy in a self-reinforcing mechanism between closing shorts and new buying.
+In this sense, this week will not be so much about the FOMC's decision on the size of the hike, nor even about Powell's words (which I think will be confirmed as hawkish).
+Instead, it will be about how the markets react in the second half of the week and the week after.
+Disclaimer: This article is written for informational purposes only; it does not constitute a solicitation, offer, advice, counseling, or recommendation to invest as such it is not intended to incentivize the purchase of assets in any way. I want to remind you that any type of asset is evaluated from multiple points of view and is highly risky; therefore, any investment decision and the associated risk remain with the investor.
+</code></pre>
+</div>
+</div>
+<p><code>ChatGPT</code>에 요약을 요청합니다.</p>
+<div id="20cbed79" class="cell" data-execution_count="60">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarize(prompt):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 모델 엔진 선택</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    model_engine <span class="op">=</span> <span class="st">"text-davinci-003"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 맥스 토큰</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    max_tokens <span class="op">=</span> <span class="dv">3000</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 요약 요청</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    completion <span class="op">=</span> openai.Completion.create(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        engine<span class="op">=</span>model_engine,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        prompt<span class="op">=</span>prompt,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        max_tokens<span class="op">=</span>max_tokens,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        temperature<span class="op">=</span><span class="fl">0.3</span>,       <span class="co"># creativity</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        top_p<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        frequency_penalty<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        presence_penalty<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> completion</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="98647b63" class="cell" data-execution_count="63">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 요약 요청후 결과 return</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> summarize(prompt)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 결과 출력</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.choices[<span class="dv">0</span>].text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+This paragraph is discussing the cautious sentiment of investors in the markets due to the tumultuous year of 2022 and the potential for a rally in the second half of the week. It also mentions the high levels of cash on the sidelines and the potential for a buying frenzy if the markets continue to rally. Overall, this is a positive sentiment.</code></pre>
+</div>
+</div>
+</section>
+<section id="파파고-번역" class="level2">
+<h2 class="anchored" data-anchor-id="파파고-번역">파파고 번역</h2>
+<p>요약본을 한글로 번역하기 위하여 PAPAGO 번역 사이트를 이용하였습니다.</p>
+<p><strong>프로세스</strong></p>
+<ol type="1">
+<li>파파고 번역 요청을 위한 <code>selenium</code> 브라우저를 생성</li>
+<li>영문 텍스트를 입력</li>
+<li>번역된 한글 텍스트를 크롤링</li>
+</ol>
+<div id="5e9ae318" class="cell" data-execution_count="66">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 샘플 텍스트</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>summarized <span class="op">=</span> <span class="st">'''This paragraph is summarizing the current state of the stock market, with the Dow Jones Industrial Average, S&amp;P 500, and NASDAQ Composite all down, while Gold Futures and Advanced Micro Devices Inc (AMD) rose. Investors are cautious ahead of the Federal Reserve's rate decision, and corporate earnings are mixed, with Electronic Arts Inc (EA) and Snap Inc (SNAP) falling and AMD rising. Oil prices are also down. Overall, the sentiment of the paragraph is negative.'''</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="6ba5a4c7" class="cell" data-execution_count="68">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 파파고 번역 요청을 위한 selenium 생성</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>papago <span class="op">=</span> set_chrome_driver(<span class="va">False</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>papago.get(<span class="ss">f'https://papago.naver.com/'</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 영문 문장 입력</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>papago.find_element(By.ID, <span class="st">'txtSource'</span>).send_keys(summarized)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 번역 버튼 클릭</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>papago.find_element(By.ID, <span class="st">'btnTranslate'</span>).click()</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 강제 지연 시간: 번역을 기다릴 수 있도록 2초 슬립</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>time.sleep(<span class="dv">2</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 번역된 한글 텍스트 크롤링</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>papago_translated <span class="op">=</span> papago.find_element(By.ID, <span class="st">'targetEditArea'</span>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(papago_translated.text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>이 단락은 다우존스 산업평균지수, S&amp;P 500, 나스닥 종합지수가 모두 하락한 반면 골드 퓨처스와 어드밴스드 마이크로 디바이스 주식회사(AMD)는 상승하는 등 주식시장의 현주소를 요약하고 있다. 미국 연방준비제도(Fed·연준)의 금리 결정을 앞두고 투자자들이 신중한 모습을 보이고 있고, 일렉트로닉아츠(EA)와 스냅인(SNAP)이 하락하고 AMD가 상승하는 등 기업 실적도 엇갈리고 있다. 유가도 하락했다. 전반적으로 문단의 정서는 부정적이다.</code></pre>
+</div>
+</div>
+<p>위의 내용을 아래에 함수화 합니다.</p>
+<p>번역된 텍스트 크롤링 시 오류가 날 수 있으므로, 이에 대한 <strong>예외처리</strong>도 적용합니다.</p>
+<div id="4fb51086" class="cell" data-execution_count="69">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> papago_translate(text):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        papago <span class="op">=</span> set_chrome_driver(<span class="va">False</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        papago.get(<span class="st">'https://papago.naver.com/'</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        papago.find_element(By.ID, <span class="st">'txtSource'</span>).send_keys(text)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        papago.find_element(By.ID, <span class="st">'btnTranslate'</span>).click()</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">2</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        papago_translated <span class="op">=</span> papago.find_element(By.ID, <span class="st">'targetEditArea'</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> papago_translated.text</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> NoSuchElementException: <span class="co"># 예외처리 (요소를 찾지 못하는 경우)</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> <span class="st">'번역 오류ㅠㅠ'</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">finally</span>:</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        papago.close()</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="최종-뉴스기사-크롤링요약번역-코드" class="level2">
+<h2 class="anchored" data-anchor-id="최종-뉴스기사-크롤링요약번역-코드">최종 뉴스기사 크롤링+요약+번역 코드</h2>
+<div id="435ecd70" class="cell" data-execution_count="71">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> webdriver_manager.chrome <span class="im">import</span> ChromeDriverManager</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.chrome.service <span class="im">import</span> Service</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.common.exceptions <span class="im">import</span> NoSuchElementException</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openai</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># OPENAI API키 설정</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>openai.api_key <span class="op">=</span> <span class="st">"OpenAI API Key 입력"</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 크롬드라이버 셋팅</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_chrome_driver(headless<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> headless:</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        options.add_argument(<span class="st">'headless'</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    options.add_argument(<span class="st">"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    driver <span class="op">=</span> webdriver.Chrome(service<span class="op">=</span>Service(ChromeDriverManager().install()), options<span class="op">=</span>options)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> driver</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 뉴스 페이지 크롤링</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> crawl_page(url):</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>        driver <span class="op">=</span> set_chrome_driver(<span class="va">False</span>)</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>        driver.get(url)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 요소 변경 가능</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>        article_page <span class="op">=</span> driver.find_element(By.CLASS_NAME, <span class="st">'articlePage'</span>)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> article_page.text</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>        driver.close()</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> NoSuchElementException:</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> text</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a><span class="co"># ChatGPT 요약</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarize(text):</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 모델 엔진 선택</span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    model_engine <span class="op">=</span> <span class="st">"text-davinci-003"</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 맥스 토큰</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>    max_tokens <span class="op">=</span> <span class="dv">2500</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 프롬프트 (요약해줘!)</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="ss">f'''Summarize the paragraph below and interpret whether it is a positive or negative sentiment.</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="ss">    </span><span class="sc">{</span>text<span class="sc">}</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="ss">    '''</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 요약 요청</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>    completion <span class="op">=</span> openai.Completion.create(</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>        engine<span class="op">=</span>model_engine,</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>        prompt<span class="op">=</span>prompt,</span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>        max_tokens<span class="op">=</span>max_tokens,</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>        temperature<span class="op">=</span><span class="fl">0.3</span>,      <span class="co"># creativity</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>        top_p<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>        frequency_penalty<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>        presence_penalty<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> completion.choices[<span class="dv">0</span>].text</span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 파파고 번역</span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> papago_translate(text):</span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a>        papago <span class="op">=</span> set_chrome_driver(<span class="va">False</span>)</span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>        papago.get(<span class="st">'https://papago.naver.com/'</span>)</span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)</span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>        papago.find_element(By.ID, <span class="st">'txtSource'</span>).send_keys(text)</span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>        papago.find_element(By.ID, <span class="st">'btnTranslate'</span>).click()</span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">2</span>)</span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>        papago_translated <span class="op">=</span> papago.find_element(By.ID, <span class="st">'targetEditArea'</span>)</span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> papago_translated.text</span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> NoSuchElementException: <span class="co"># 예외처리 (요소를 찾지 못하는 경우)</span></span>
+<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> <span class="st">'번역 오류ㅠㅠ'</span></span>
+<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">finally</span>:</span>
+<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a>        papago.close()</span>
+<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
+<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a><span class="co"># 최종 wrapper</span></span>
+<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarize_news(url):</span>
+<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a>    page <span class="op">=</span> crawl_page(url)</span>
+<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a>    summarized <span class="op">=</span> summarize(page)</span>
+<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'&lt;원문 요약&gt;'</span>)</span>
+<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(summarized)</span>
+<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a>    korean_translated <span class="op">=</span> papago_translate(summarized)</span>
+<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">&lt;한글 요약본&gt;'</span>)</span>
+<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(korean_translated)</span>
+<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> korean_translated</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>1개의 샘플 URL로 테스트를 진행합니다.</p>
+<div id="cfb7b06c" class="cell" data-execution_count="72">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> summarize_news(<span class="st">'https://www.investing.com/analysis/traders-send-wheat-prices-spiking-as-allied-tanks-aid-to-roll-into-ukraine-200634894'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;원문 요약&gt;
+
+This paragraph is discussing the current state of the wheat market, which has been affected by the Ukraine war and other factors. It is a neutral sentiment, as it is simply providing information about the current state of the market.
+
+&lt;한글 요약본&gt;
+이 단락은 우크라이나 전쟁과 다른 요인들의 영향을 받은 밀 시장의 현재 상태를 논의하고 있다. 그것은 단지 시장의 현재 상태에 대한 정보를 제공하는 것이기 때문에 중립적인 정서이다.</code></pre>
+</div>
+</div>
+</section>
+<section id="더-나아가서" class="level2">
+<h2 class="anchored" data-anchor-id="더-나아가서">더 나아가서</h2>
+<ul>
+<li>top5(Most Popular) 신문기사의 링크를 크롤링 해온 뒤 이를 모두 요약+번역할 수 있도록 발전시킨 코드입니다.</li>
+</ul>
+<p>먼저, investing.com의 Most Popular에 게재된 Top5 신문기사를 크롤링합니다.</p>
+<div id="44a6790d" class="cell" data-execution_count="74">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># most popular news 의 신문기사 요소를 크롤링 합니다</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>top5 <span class="op">=</span> set_chrome_driver(<span class="va">False</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># URL 요청</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>top5.get(<span class="st">'https://www.investing.com/news/most-popular-news'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 5개의 요소만 가져옵니다.</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>top5.find_element(By.CLASS_NAME, <span class="st">'largeTitle'</span>).find_elements(By.CLASS_NAME, <span class="st">'js-article-item'</span>)[:<span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="74">
+<pre><code>[&lt;selenium.webdriver.remote.webelement.WebElement (session="7af93f9bf399bacaaf635c50b3e0fd94", element="ade4efab-ccba-4907-8527-12ddfd0f156c")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="7af93f9bf399bacaaf635c50b3e0fd94", element="ad1ba5e8-443f-475c-874d-6f53b9dc9043")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="7af93f9bf399bacaaf635c50b3e0fd94", element="8992e0f9-f6b5-4b82-a95e-741432b50039")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="7af93f9bf399bacaaf635c50b3e0fd94", element="0eec2883-fa65-4b1f-9b5a-6b41b0487256")&gt;,
+ &lt;selenium.webdriver.remote.webelement.WebElement (session="7af93f9bf399bacaaf635c50b3e0fd94", element="3a1bbf5f-6fc0-44d7-92a8-9e73649c0c2e")&gt;]</code></pre>
+</div>
+</div>
+<p>크롤링 한 Top5 <strong>신문기사의 URL을 추출</strong>합니다.</p>
+<div id="6299bb0d" class="cell" data-execution_count="78">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5개의 신문기사 URL 만 추출 합니다.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>top5_links <span class="op">=</span> []</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> link <span class="kw">in</span> top5.find_element(By.CLASS_NAME, <span class="st">'largeTitle'</span>).find_elements(By.CLASS_NAME, <span class="st">'js-article-item'</span>)[:<span class="dv">5</span>]:</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    top5_links.append(link.find_element(By.CSS_SELECTOR, <span class="st">'a'</span>).get_attribute(<span class="st">'href'</span>))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>top5_links</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="78">
+<pre><code>['https://www.investing.com/news/economy/fed-hikes-by-025-in-further-downshift-on-tightening-but-sees-more-hikes-ahead-2993513',
+ 'https://www.investing.com/news/economy/futures-dip-on-jitters-ahead-of-adp-report-fed-decision-2993229',
+ 'https://www.investing.com/news/stock-market-news/us-stocks-are-falling-ahead-of-the-feds-rate-decision-2993346',
+ 'https://www.investing.com/jp.php?v2=ZSU2aDZhYjhiM2xlZzZiZzNrZT83MDE6Z3BjMWBqNH1jJTQ9MWkydDc_OSdiPmE7M0BmOTY-MyUwZm89OntiIWUiNmg2ZmI3YjVsYWciYiMzb2U8NzgxNmdwYyBgag==',
+ 'https://www.investing.com/news/economy/fed-decision-snaps-falling-sales-meta-earnings--whats-moving-markets-2993057']</code></pre>
+</div>
+</div>
+<p>마지막으로, 이전에 생성한 <code>summarize_news</code> 함수를 활용하여 크롤링 + 요약 + 번역을 진행하고 결과를 확인합니다.</p>
+<div id="42cfdd7b" class="cell" data-execution_count="79">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5개의 신문기사 링크에 대한 본문 크롤링+요약+번역 을 진행합니다.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>top5_summarize <span class="op">=</span> []</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> link <span class="kw">in</span> top5_links:</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> summarize_news(link)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    top5_summarize.append(output)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;원문 요약&gt;
+
+This paragraph is summarizing the Federal Reserve's decision to raise interest rates by 0.25%, and the sentiment is generally positive. It notes that the move is in line with the Fed's goal of returning inflation to 2%, and that the labor market remains strong. It also mentions that the markets are expecting Powell to push back against the easing financial conditions, but that the response will likely be positive.
+
+&lt;한글 요약본&gt;
+이 문단은 연방준비제도이사회(FRB)가 금리를 0.25% 인상하기로 한 결정을 정리한 것으로 대체로 긍정적인 분위기다. 물가상승률을 2%로 되돌리겠다는 연준의 목표와 맞물려 노동시장이 강세를 유지하고 있다는 점에 주목한다. 그것은 또한 시장이 파월이 완화적인 금융 조건에 대해 반발할 것으로 기대하고 있지만, 반응은 긍정적일 가능성이 높다고 언급한다.
+
+&lt;원문 요약&gt;
+
+This paragraph is discussing the performance of the stock market in the US, with the Dow, S&amp;P 500, and Nasdaq all falling ahead of the Federal Reserve's decision on interest rates. It also mentions that Advanced Micro Devices Inc had a positive outlook, while Snap Inc and Electronic Arts Inc had negative outlooks. Overall, the sentiment of this paragraph is negative as the stock market indexes are down and some companies had negative outlooks.
+
+&lt;한글 요약본&gt;
+이 단락은 연방준비제도의 금리 결정을 앞두고 다우지수, S&amp;P 500지수, 나스닥지수가 모두 하락한 가운데 미국 증시의 실적을 논의하고 있다. 또한 Advanced Micro Devices Inc는 긍정적인 전망을, Snap Inc와 Electronic Arts Inc는 부정적인 전망을 나타냈습니다. 전반적으로 이 단락의 정서는 주가지수가 하락하고 일부 기업들이 부정적인 전망을 했기 때문에 부정적이다.
+
+&lt;원문 요약&gt;
+
+This paragraph is summarizing the current state of the stock market and the Federal Reserve's decision on interest rates. It also mentions the job market, corporate earnings, and oil prices. Overall, the sentiment is neutral as some stocks are rising while others are falling.
+
+&lt;한글 요약본&gt;
+이 단락은 주식 시장의 현황과 연방 준비 제도 이사회의 금리 결정을 요약하고 있다. 그것은 또한 고용 시장, 기업 수익, 유가를 언급한다. 일부 종목은 오르고 있는 반면 다른 종목은 하락하고 있어 전반적으로 심리가 중립적이다.
+
+&lt;원문 요약&gt;
+
+This product is not worth the money.
+
+This paragraph expresses a negative sentiment about a product not being worth the money.
+
+&lt;한글 요약본&gt;
+이 제품은 값어치가 없다.
+
+이 단락은 제품이 그 돈의 가치가 없다는 부정적인 감정을 표현한다.
+
+&lt;원문 요약&gt;
+
+This paragraph provides an overview of the financial markets on February 1st. It mentions the Federal Reserve's decision to raise interest rates, economic data releases, stock market performance, euro zone inflation, OPEC+ production quotas, and U.S. crude futures. The sentiment is neutral, as it simply provides an overview of the day's events.
+
+&lt;한글 요약본&gt;
+이 단락은 2월 1일의 금융 시장에 대한 개요를 제공한다. 금리 인상, 경제 데이터 공개, 증시 성과, 유로존 인플레이션, OPEC+ 생산 쿼터, 미국 원유 선물 등을 언급하고 있다. 그 정서는 단지 그날의 사건들에 대한 개요를 제공하기 때문에 중립적이다.
+</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../13-ChatGPT/01-chatgpt.html" class="pagination-link" aria-label="openai 관련 설정">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">openai 관련 설정</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../01-Kaggle/01-Kaggle/01-titanic/titanic-data-analysis-V1.html" class="pagination-link" aria-label="titanic-data-analysis-V1.html">
+        <span class="nav-page-text"><span class="chapter-title">titanic-data-analysis-V1.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

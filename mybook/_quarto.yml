@@ -1,0 +1,130 @@
+project:
+  type: book
+
+book:
+  title: "기계학습 공부 자료들"
+  author: "TeddyNote"
+  date: "2026-03-01"
+  chapters:
+    - index.qmd
+    - part: "Python Foundation"
+      chapters:
+        - 00-Python/01-파이썬-자료구조.ipynb
+        - text: "시퀀스, 집합형 자료구조 (1)"
+          file: 00-Python/02-파이썬-리스트-튜플.ipynb
+        - text: "시퀀스, 집합형 자료구조 (2)"
+          file: 00-Python/03-파이썬-세트-딕셔너리.ipynb
+        - 00-Python/04-파이썬-문자열.ipynb
+        - 00-Python/05-파이썬-연산.ipynb
+        - 00-Python/06-파이썬-비교-논리-삼항연산자-조건문.ipynb
+        - 00-Python/07-파이썬-반복문.ipynb
+        - 00-Python/08-파이썬-Comprehension.ipynb
+        - 00-Python/09-파이썬-함수.ipynb
+        - 00-Python/10-파이썬-내장함수.ipynb
+        - 00-Python/11-파이썬-패키지-모듈.ipynb
+        - 00-Python/12-파이썬-클래스-상속.ipynb
+    - part: "Data Analysis & Visualization"
+      chapters:
+        - text: "pandas 모듈 import (1)"
+          file: 05-Pandas/01-10mins-to-pandas.ipynb
+        - 05-Pandas/02-pandas-interpolation.ipynb
+        - 05-Pandas/03-입찰공고-데이터분석.ipynb
+        - 05-Pandas/04-코사인유사도-주식패턴.ipynb
+        - 06-Visualization/01-pandas-visualization-tutorial.ipynb
+        - 06-Visualization/02-matplotlib-tutorial.ipynb
+        - 06-Visualization/03-seaborn-tutorial.ipynb
+    - part: "Scikit-Learn Machine Learning"
+      chapters:
+        - 07-Scikit-Learn/tutorial/01-최소제곱법-(OrdinaryLeastSquares)-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/02-경사하강법-(Gradient-Descent)-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/03-데이터셋-(Dataset)-다루기-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/04-데이터전처리-(Preprocessing)-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/05-분류-(Classifications)-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/06-회귀-(regression)-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/07-logistic-regression-분류-평가지표-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/08-결정트리-(DecisionTree)-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/09-앙상블-(Ensemble)-(실습).ipynb
+        - 07-Scikit-Learn/tutorial/10-비지도학습-(UnsupervisedLearning)-(실습).ipynb
+    - part: "PyTorch Deep Learning"
+      chapters:
+        - 02-PyTorch/00-텐서의-기초.ipynb
+        - 02-PyTorch/01-텐서를-생성하는-다양한방법.ipynb
+        - 02-PyTorch/02-경사하강법-구현.ipynb
+        - 02-PyTorch/03-pytorch로-경사하강법-구현.ipynb
+        - 02-PyTorch/04-DataSet과-DataLoader.ipynb
+        - 02-PyTorch/05-정형데이터-예측모델생성.ipynb
+        - 02-PyTorch/06-정형데이터-예측모델생성-subclassing.ipynb
+        - 02-PyTorch/07-torchvision-transform.ipynb
+        - 02-PyTorch/08-dnn-fashion-mnist.ipynb
+        - 02-PyTorch/09-cnn-rps.ipynb
+        - 02-PyTorch/10-transfer-learning-cats-vs-dogs.ipynb
+        - 02-PyTorch/11-custom-image-loader.ipynb
+        - 02-PyTorch/12-alexnet-implementation.ipynb
+        - 02-PyTorch/13-image-transforms.ipynb
+        - 02-PyTorch/14-GoogleNet-Inception-Module.ipynb
+        - 02-PyTorch/16-torchtext-tutorial.ipynb
+        - 02-PyTorch/17-embedding-lstm-text-classification.ipynb
+        - 02-PyTorch/23-seq2seq-챗봇.ipynb
+        - 02-PyTorch/24-seq2seq-with-attention-chatbot.ipynb
+    - part: "TensorFlow Deep Learning"
+      chapters:
+        - 03-TensorFlow/01_Simple_Linear_Regression.ipynb
+        - 03-TensorFlow/02_Multi_Variable_Linear_Regression.ipynb
+        - 03-TensorFlow/03_Logistic_Regression_With_Mnist_Data.ipynb
+        - 03-TensorFlow/04_TensorBoard_Example.ipynb
+        - 03-TensorFlow/05_Convolution_Neural_Network_With_Mnist_Dataset.ipynb
+        - 04-TensorFlow2.0/01-삼성전자-주가예측/LSTM을_활용한_삼성전자_주가예측.ipynb
+        - 04-TensorFlow2.0/03-tensorboard/TensorBoard_사용법.ipynb
+        - 04-TensorFlow2.0/04-transfer-learning/cats_vs_dogs-transfer.ipynb
+        - 04-TensorFlow2.0/05-auto-encoder/01-basic-auto-encoder-MNIST.ipynb
+        - 04-TensorFlow2.0/06-gradient-tape/GradientTape.ipynb
+        - 04-TensorFlow2.0/07-generate-text/01-generate-shakespear.ipynb
+        - 04-TensorFlow2.0/09-LSTM/LSTM Layer.ipynb
+        - 04-TensorFlow2.0/11-CNN-models/01-LeNet-5.ipynb
+        - 04-TensorFlow2.0/13-chatbot/01-seq2seq-chatbot-no-attention.ipynb
+        - 04-TensorFlow2.0/13-chatbot/02-seq2seq-chatbot-attention.ipynb
+    - part: "AutoML"
+      chapters:
+        - 11-AutoML/05-PyCaret/tutorials/00-Intro.ipynb
+        - 11-AutoML/05-PyCaret/tutorials/01-Classification.ipynb
+        - 11-AutoML/05-PyCaret/tutorials/02-Regression.ipynb
+        - 11-AutoML/05-PyCaret/tutorials/03-Association-Rules.ipynb
+        - 11-AutoML/05-PyCaret/tutorials/04-Anomaly-Detection.ipynb
+    - part: "Advanced Deep Learning"
+      chapters:
+        - 08-XAI/CAM.ipynb
+        - 08-XAI/GRAD_CAM.ipynb
+        - 09-GAN/01-VanillaGAN-MNIST-Tutorial.ipynb
+        - 09-GAN/02-DCGAN-MNIST-Tutorial.ipynb
+        - 09-GAN/03-pix2pix-TF-Tutorial.ipynb
+        - 09-GAN/04-hjk-style-transfer.ipynb
+        - 10-RL/HJK_DQN_R1.ipynb
+        - 10-RL/HJK_PG_REINFORCE.ipynb
+        - 10-RL/HJK_PG_AC.ipynb
+    - part: "NLP & Generative AI"
+      chapters:
+        - 12-HuggingFace/01-Text-Classification-Simple.ipynb
+        - 12-HuggingFace/03-huggingface-bert-kor-text-classification.ipynb
+        - 13-ChatGPT/01-chatgpt.ipynb
+        - 13-ChatGPT/02-news-article.ipynb
+    - part: "Kaggle Competitions"
+      chapters:
+        - text: "Titanic: Data Analysis"
+          file: 01-Kaggle/01-Kaggle/01-titanic/titanic-data-analysis-V1.ipynb
+        - text: "Titanic: Preprocessing"
+          file: 01-Kaggle/01-Kaggle/01-titanic/titanic-preprocessing.ipynb
+        - text: "Titanic: RandomForest Model"
+          file: 01-Kaggle/01-Kaggle/01-titanic/titanic-randomforest-0.80382.ipynb
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+    code-fold: false
+    toc: true
+    number-sections: false
+
+execute:
+  freeze: auto
