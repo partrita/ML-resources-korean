@@ -1,15 +1,42 @@
 # 환영합니다 {.unnumbered}
 
-머신러닝 및 딥러닝 학습을 위한 리소스 모음집입니다.
+머신러닝 및 딥러닝 학습을 위한 리소스 모음집입니다. 이 저장소는 머신러닝 분야를 스스로 학습하는 분들에게 도움을 드리고자 개인적인 스터디 내용을 바탕으로 정리되었습니다.
 
-이 책은 다음과 같은 내용을 포함하고 있습니다:
+## 📢 지식공유 채널
+
+학습한 내용을 블로그와 유튜브를 통해 공유하고 있습니다.
+
+- **YouTube**: [테디노트 YouTube 채널](https://www.youtube.com/channel/UCt2wAAXgm87ACiQnDHQEW6Q)
+- **Blog**: [테디노트 블로그 (teddylee777.github.io)](https://teddylee777.github.io/)
+
+---
+
+## 📚 이 책의 주요 구성
+
+이 책은 다음과 같은 핵심 주제들을 포함하고 있습니다:
 
 - **Python Foundation**: 파이썬 기초 문법 및 자료구조
-- **Data Analysis & Visualization**: Pandas와 Matplotlib, Seaborn을 활용한 데이터 분석 및 시각화
+- **Data Analysis & Visualization**: Pandas, Matplotlib, Seaborn을 활용한 데이터 분석 및 시각화
 - **Scikit-Learn Machine Learning**: 사이킷런을 활용한 전통적인 머신러닝 기법
 - **Deep Learning Frameworks**: PyTorch와 TensorFlow를 활용한 딥러닝 구현
 - **Advanced Topics**: XAI, GAN, 강화학습 등 심화 주제
-- **NLP & Generative AI**: HuggingFace와 ChatGPT 활용법
-- **Kaggle Competitions**: 캐글 경진대회 실전 예제
+- **NLP & Generative AI**: HuggingFace, 랭체인(LangChain), ChatGPT 활용법
+- **Kaggle Competitions**: 캐글 경진대회 실전 예제 및 우승 솔루션 분석
 
-이 자료들이 여러분의 학습에 도움이 되기를 바랍니다.
+---
+
+## 🔗 외부 추천 학습 리소스
+
+`README.md`에서 추천하는 주요 학습 자료들입니다.
+
+### 기초 및 이론
+- **수학/통계**: [3Blue1Brown (한국어)](https://www.youtube.com/@3Blue1BrownKR), [통계의 본질](https://www.youtube.com/channel/UCVrs4KiLQz_gvVWWK1pKR1g)
+- **머신러닝 입문**: Andrew Ng 교수의 Coursera 강의, [최성철 교수님(TEAMLAB) 강의](https://www.youtube.com/watch?v=1Z-lT4ooSFY&list=PLBHVuYlKEkUKnfbWvRCrwSuSeYh_QUlRl)
+- **딥러닝 기초**: [모두를 위한 딥러닝 (김성훈 교수님)](https://www.youtube.com/watch?v=BS6O0zOGX4E&index=1&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm), Stanford CS231n
+
+### 실전 및 커뮤니티
+- **캐글/데이콘**: [이유한님의 캐글 유튜브](https://www.youtube.com/channel/UC--LgKcZVgffjsxudoXg5pQ), [ stevekwon211님의 Hello Kaggle!](https://github.com/stevekwon211/Hello-Kaggle-KOR)
+- **커뮤니티**: [TensorFlow Korea](https://www.facebook.com/groups/TensorFlowKR/), [PyTorch KR](https://www.facebook.com/groups/PyTorchKR/), [Kaggle Korea](https://www.facebook.com/groups/KaggleKoreaOpenGroup/)
+- **유용한 웹사이트**: [Papers With Code](https://paperswithcode.com/), [Hugging Face](https://huggingface.co/), [GPTers](https://www.gpters.org/)
+
+이 자료들이 여러분의 학습 여정에 든든한 가이드가 되기를 바랍니다. 궁금한 점이나 공유하고 싶은 자료가 있다면 언제든지 Pull Request를 보내주세요!
