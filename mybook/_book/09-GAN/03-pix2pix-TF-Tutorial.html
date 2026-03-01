@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Copyright 2019 The TensorFlow Authors. – 기계학습 공부 자료들</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../09-GAN/04-hjk-style-transfer.html" rel="next">
+<link href="../09-GAN/02-DCGAN-MNIST-Tutorial.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3778d3e438078121318a23701f9f68bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../08-XAI/CAM.html">Advanced Deep Learning</a></li><li class="breadcrumb-item"><a href="../09-GAN/03-pix2pix-TF-Tutorial.html"><span class="chapter-title">Copyright 2019 The TensorFlow Authors.</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">기계학습 공부 자료들</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">환영합니다</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Python Foundation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/01-파이썬-자료구조.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">파이썬의 철학</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/02-파이썬-리스트-튜플.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">시퀀스, 집합형 자료구조</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/03-파이썬-세트-딕셔너리.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">시퀀스, 집합형 자료구조</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/04-파이썬-문자열.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">문자열</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/05-파이썬-연산.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">연산</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/06-파이썬-비교-논리-삼항연산자-조건문.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">비교연산자</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/07-파이썬-반복문.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">반복문</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/08-파이썬-Comprehension.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Comprehension 문법</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/09-파이썬-함수.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">함수(function)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/10-파이썬-내장함수.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">내장함수(built-in function)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/11-파이썬-패키지-모듈.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">패키지와 모듈의 관계</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-Python/12-파이썬-클래스-상속.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Python의 Class와 상속(inheritance)의 개념</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Analysis &amp; Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/01-10mins-to-pandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">pandas 모듈 import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/02-pandas-interpolation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">보간 (Interpolation)을 활용한 결측치 대입</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/03-입찰공고-데이터분석.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">성공적인 입찰을 위한 데이터 분석 (토건, 토목, 시공 편)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../05-Pandas/04-코사인유사도-주식패턴.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">패키지 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06-Visualization/01-pandas-visualization-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06-Visualization/02-matplotlib-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../06-Visualization/03-seaborn-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Scikit-Learn Machine Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/01-최소제곱법-(OrdinaryLeastSquares)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">최소제곱법 (Least Ordinary Squares)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/02-경사하강법-(Gradient-Descent)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">경사하강법 (Gradient Descent)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/03-데이터셋-(Dataset)-다루기-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터 셋 (Dataset) 다루기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/04-데이터전처리-(Preprocessing)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">표준화 (Standardization)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/05-분류-(Classifications)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">분류 (Classification)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/06-회귀-(regression)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">회귀 (regression)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/07-logistic-regression-분류-평가지표-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Logistic Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/08-결정트리-(DecisionTree)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">결정트리 or 의사결정나무 (Decision Tree)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/09-앙상블-(Ensemble)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">앙상블(Ensemble)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-Scikit-Learn/tutorial/10-비지도학습-(UnsupervisedLearning)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">비지도 학습 (Unsupervised Learning)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PyTorch Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/00-텐서의-기초.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">스칼라, 벡터, 메트릭스, 텐서</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/01-텐서를-생성하는-다양한방법.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torch import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/02-경사하강법-구현.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/03-pytorch로-경사하강법-구현.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyTorch로 경사하강법(Gradient Descent) 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/04-DataSet과-DataLoader.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Case 1. 내장(built-in) 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/05-정형데이터-예측모델생성.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/06-정형데이터-예측모델생성-subclassing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/07-torchvision-transform.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">모듈 import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/08-dnn-fashion-mnist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torch.utils.data.DataLoader</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/09-cnn-rps.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">train / validation 데이터셋 split</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/10-transfer-learning-cats-vs-dogs.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">train / validation 데이터셋 split</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/11-custom-image-loader.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터셋 다운로드 및 압축 해제</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/12-alexnet-implementation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">AlexNet 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/13-image-transforms.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">이미지 증강(Image Augmentation) 적용하기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/14-GoogleNet-Inception-Module.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GoogLeNet의 Inception Module 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/16-torchtext-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torchtext 튜토리얼</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/17-embedding-lstm-text-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터프레임(DataFrame) 커스텀 데이터셋 클래스</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/23-seq2seq-챗봇.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">모듈 import &amp; 데이터 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../02-PyTorch/24-seq2seq-with-attention-chatbot.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. 데이터 전처리</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">TensorFlow Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/01_Simple_Linear_Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">김성훈 교수님의 “모두를 위한 딥러닝”의 강좌를 참고 하였습니다.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/02_Multi_Variable_Linear_Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">02_Multi_Variable_Linear_Regression.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/03_Logistic_Regression_With_Mnist_Data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">03_Logistic_Regression_With_Mnist_Data.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/04_TensorBoard_Example.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">04_TensorBoard_Example.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../03-TensorFlow/05_Convolution_Neural_Network_With_Mnist_Dataset.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">05_Convolution_Neural_Network_With_Mnist_Dataset.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/01-삼성전자-주가예측/LSTM을_활용한_삼성전자_주가예측.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">날짜형 컬럼으로 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/03-tensorboard/TensorBoard_사용법.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터 로드 &amp; 전처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/04-transfer-learning/cats_vs_dogs-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/05-auto-encoder/01-basic-auto-encoder-MNIST.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/06-gradient-tape/GradientTape.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플데이터 로드 (mnist)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/07-generate-text/01-generate-shakespear.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">텐서플로우 RNN 텍스트 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/09-LSTM/LSTM Layer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LSTM Layer 파헤치기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/11-CNN-models/01-LeNet-5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">01-LeNet-5.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/13-chatbot/01-seq2seq-chatbot-no-attention.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Seq2Seq 모델을 활용한 챗봇 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../04-TensorFlow2.0/13-chatbot/02-seq2seq-chatbot-attention.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Seq2Seq 모델을 활용한 챗봇 생성</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">AutoML</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/00-Intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/01-Classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/02-Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/03-Association-Rules.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../11-AutoML/05-PyCaret/tutorials/04-Anomaly-Detection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Advanced Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../08-XAI/CAM.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">CAM.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../08-XAI/GRAD_CAM.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GRAD_CAM.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/01-VanillaGAN-MNIST-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Vanilla Gan Tutorial!</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/02-DCGAN-MNIST-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">DCGAN Tutorial!</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/03-pix2pix-TF-Tutorial.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Copyright 2019 The TensorFlow Authors.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-GAN/04-hjk-style-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">04-hjk-style-transfer.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../10-RL/HJK_DQN_R1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_DQN_R1.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../10-RL/HJK_PG_REINFORCE.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_PG_REINFORCE.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../10-RL/HJK_PG_AC.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_PG_AC.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">NLP &amp; Generative AI</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../12-HuggingFace/01-Text-Classification-Simple.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터셋 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../12-HuggingFace/03-huggingface-bert-kor-text-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">토큰화가 적용된 데이터셋</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../13-ChatGPT/01-chatgpt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">openai 관련 설정</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../13-ChatGPT/02-news-article.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">진행 과정</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Kaggle Competitions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01-Kaggle/01-Kaggle/01-titanic/titanic-data-analysis-V1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">titanic-data-analysis-V1.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01-Kaggle/01-Kaggle/01-titanic/titanic-preprocessing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../01-Kaggle/01-Kaggle/01-titanic/titanic-randomforest-0.80382.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">titanic-randomforest-0.80382.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#pix2pix" id="toc-pix2pix" class="nav-link active" data-scroll-target="#pix2pix">Pix2Pix</a>
+  <ul class="collapse">
+  <li><a href="#import-tensorflow-and-other-libraries" id="toc-import-tensorflow-and-other-libraries" class="nav-link" data-scroll-target="#import-tensorflow-and-other-libraries">Import TensorFlow and other libraries</a></li>
+  <li><a href="#load-the-dataset" id="toc-load-the-dataset" class="nav-link" data-scroll-target="#load-the-dataset">Load the dataset</a></li>
+  <li><a href="#input-pipeline" id="toc-input-pipeline" class="nav-link" data-scroll-target="#input-pipeline">Input Pipeline</a></li>
+  <li><a href="#build-the-generator" id="toc-build-the-generator" class="nav-link" data-scroll-target="#build-the-generator">Build the Generator</a></li>
+  <li><a href="#build-the-discriminator" id="toc-build-the-discriminator" class="nav-link" data-scroll-target="#build-the-discriminator">Build the Discriminator</a></li>
+  <li><a href="#define-the-optimizers-and-checkpoint-saver" id="toc-define-the-optimizers-and-checkpoint-saver" class="nav-link" data-scroll-target="#define-the-optimizers-and-checkpoint-saver">Define the Optimizers and Checkpoint-saver</a></li>
+  <li><a href="#generate-images" id="toc-generate-images" class="nav-link" data-scroll-target="#generate-images">Generate Images</a></li>
+  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training">Training</a></li>
+  <li><a href="#restore-the-latest-checkpoint-and-test" id="toc-restore-the-latest-checkpoint-and-test" class="nav-link" data-scroll-target="#restore-the-latest-checkpoint-and-test">Restore the latest checkpoint and test</a></li>
+  <li><a href="#generate-using-test-dataset" id="toc-generate-using-test-dataset" class="nav-link" data-scroll-target="#generate-using-test-dataset">Generate using test dataset</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../08-XAI/CAM.html">Advanced Deep Learning</a></li><li class="breadcrumb-item"><a href="../09-GAN/03-pix2pix-TF-Tutorial.html"><span class="chapter-title">Copyright 2019 The TensorFlow Authors.</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Copyright 2019 The TensorFlow Authors.</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Licensed under the Apache License, Version 2.0 (the “License”);</p>
+<div id="cell-1" class="cell" data-cellview="form" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#@title Licensed under the Apache License, Version 2.0 (the "License");</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you may not use this file except in compliance with the License.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You may obtain a copy of the License at</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.apache.org/licenses/LICENSE-2.0</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Unless required by applicable law or agreed to in writing, software</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># distributed under the License is distributed on an "AS IS" BASIS,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># See the License for the specific language governing permissions and</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># limitations under the License.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="pix2pix" class="level1">
+<h1>Pix2Pix</h1>
+<p>This notebook demonstrates image to image translation using conditional GAN’s, as described in <a href="https://arxiv.org/abs/1611.07004">Image-to-Image Translation with Conditional Adversarial Networks</a>. Using this technique we can colorize black and white photos, convert google maps to google earth, etc. Here, we convert building facades to real buildings.</p>
+<p>In example, we will use the <a href="http://cmp.felk.cvut.cz/~tylecr1/facade/">CMP Facade Database</a>, helpfully provided by the <a href="http://cmp.felk.cvut.cz/">Center for Machine Perception</a> at the <a href="https://www.cvut.cz/">Czech Technical University in Prague</a>. To keep our example short, we will use a preprocessed <a href="https://people.eecs.berkeley.edu/~tinghuiz/projects/pix2pix/datasets/">copy</a> of this dataset, created by the authors of the <a href="https://arxiv.org/abs/1611.07004">paper</a> above.</p>
+<p>Each epoch takes around 15 seconds on a single V100 GPU.</p>
+<p>Below is the output generated after training the model for 200 epochs.</p>
+<p><img src="https://www.tensorflow.org/images/gan/pix2pix_1.png" class="img-fluid" alt="sample output_1"> <img src="https://www.tensorflow.org/images/gan/pix2pix_2.png" class="img-fluid" alt="sample output_2"></p>
+<section id="import-tensorflow-and-other-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="import-tensorflow-and-other-libraries">Import TensorFlow and other libraries</h2>
+<div id="cell-5" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython <span class="im">import</span> display</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="load-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="load-the-dataset">Load the dataset</h2>
+<p>You can download this dataset and similar datasets from <a href="https://people.eecs.berkeley.edu/~tinghuiz/projects/pix2pix/datasets">here</a>. As mentioned in the <a href="https://arxiv.org/abs/1611.07004">paper</a> we apply random jittering and mirroring to the training dataset.</p>
+<ul>
+<li>In random jittering, the image is resized to <code>286 x 286</code> and then randomly cropped to <code>256 x 256</code></li>
+<li>In random mirroring, the image is randomly flipped horizontally i.e left to right.</li>
+</ul>
+<div id="cell-7" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>_URL <span class="op">=</span> <span class="st">'https://people.eecs.berkeley.edu/~tinghuiz/projects/pix2pix/datasets/facades.tar.gz'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>path_to_zip <span class="op">=</span> tf.keras.utils.get_file(<span class="st">'facades.tar.gz'</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                                      origin<span class="op">=</span>_URL,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                                      extract<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>PATH <span class="op">=</span> os.path.join(os.path.dirname(path_to_zip), <span class="st">'facades/'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-8" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>BUFFER_SIZE <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>IMG_WIDTH <span class="op">=</span> <span class="dv">256</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>IMG_HEIGHT <span class="op">=</span> <span class="dv">256</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load(image_file):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    image <span class="op">=</span> tf.io.read_file(image_file)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    image <span class="op">=</span> tf.image.decode_jpeg(image)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> tf.shape(image)[<span class="dv">1</span>]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> w <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    real_image <span class="op">=</span> image[:, :w, :]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    input_image <span class="op">=</span> image[:, w:, :]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    input_image <span class="op">=</span> tf.cast(input_image, tf.float32)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    real_image <span class="op">=</span> tf.cast(real_image, tf.float32)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_image, real_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-10" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>inp, re <span class="op">=</span> load(PATH<span class="op">+</span><span class="st">'train/100.jpg'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># casting to int for matplotlib to show the image</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(inp<span class="op">/</span><span class="fl">255.0</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.imshow(re<span class="op">/</span><span class="fl">255.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-11" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resize(input_image, real_image, height, width):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    input_image <span class="op">=</span> tf.image.resize(input_image, [height, width],</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                                method<span class="op">=</span>tf.image.ResizeMethod.NEAREST_NEIGHBOR)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    real_image <span class="op">=</span> tf.image.resize(real_image, [height, width],</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                               method<span class="op">=</span>tf.image.ResizeMethod.NEAREST_NEIGHBOR)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_image, real_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_crop(input_image, real_image):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    stacked_image <span class="op">=</span> tf.stack([input_image, real_image], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    cropped_image <span class="op">=</span> tf.image.random_crop(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      stacked_image, size<span class="op">=</span>[<span class="dv">2</span>, IMG_HEIGHT, IMG_WIDTH, <span class="dv">3</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cropped_image[<span class="dv">0</span>], cropped_image[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-13" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># normalizing the images to [-1, 1]</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normalize(input_image, real_image):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    input_image <span class="op">=</span> (input_image <span class="op">/</span> <span class="fl">127.5</span>) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    real_image <span class="op">=</span> (real_image <span class="op">/</span> <span class="fl">127.5</span>) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_image, real_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-14" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tf.function</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_jitter(input_image, real_image):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># resizing to 286 x 286 x 3</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> resize(input_image, real_image, <span class="dv">286</span>, <span class="dv">286</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># randomly cropping to 256 x 256 x 3</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> random_crop(input_image, real_image)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> tf.random.uniform(()) <span class="op">&gt;</span> <span class="fl">0.5</span>:</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># random mirroring</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        input_image <span class="op">=</span> tf.image.flip_left_right(input_image)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        real_image <span class="op">=</span> tf.image.flip_left_right(real_image)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_image, real_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>As you can see in the images below that they are going through random jittering Random jittering as described in the paper is to</p>
+<ol type="1">
+<li>Resize an image to bigger height and width</li>
+<li>Randomly crop to the target size</li>
+<li>Randomly flip the image horizontally</li>
+</ol>
+<div id="cell-16" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    rj_inp, rj_re <span class="op">=</span> random_jitter(inp, re)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    plt.imshow(rj_inp<span class="op">/</span><span class="fl">255.0</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-17" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_image_train(image_file):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> load(image_file)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> random_jitter(input_image, real_image)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> normalize(input_image, real_image)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_image, real_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_image_test(image_file):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> load(image_file)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> resize(input_image, real_image,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                                   IMG_HEIGHT, IMG_WIDTH)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    input_image, real_image <span class="op">=</span> normalize(input_image, real_image)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input_image, real_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="input-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="input-pipeline">Input Pipeline</h2>
+<div id="cell-20" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> tf.data.Dataset.list_files(PATH<span class="op">+</span><span class="st">'train/*.jpg'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> train_dataset.<span class="bu">map</span>(load_image_train,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                  num_parallel_calls<span class="op">=</span>tf.data.experimental.AUTOTUNE)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> train_dataset.shuffle(BUFFER_SIZE)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> train_dataset.batch(BATCH_SIZE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> tf.data.Dataset.list_files(PATH<span class="op">+</span><span class="st">'test/*.jpg'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> test_dataset.<span class="bu">map</span>(load_image_test)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> test_dataset.batch(BATCH_SIZE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="build-the-generator" class="level2">
+<h2 class="anchored" data-anchor-id="build-the-generator">Build the Generator</h2>
+<ul>
+<li>The architecture of generator is a modified U-Net.</li>
+<li>Each block in the encoder is (Conv -&gt; Batchnorm -&gt; Leaky ReLU)</li>
+<li>Each block in the decoder is (Transposed Conv -&gt; Batchnorm -&gt; Dropout(applied to the first 3 blocks) -&gt; ReLU)</li>
+<li>There are skip connections between the encoder and decoder (as in U-Net).</li>
+</ul>
+<div id="cell-23" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>OUTPUT_CHANNELS <span class="op">=</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> downsample(filters, size, apply_batchnorm<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    initializer <span class="op">=</span> tf.random_normal_initializer(<span class="fl">0.</span>, <span class="fl">0.02</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> tf.keras.Sequential()</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    result.add(tf.keras.layers.Conv2D(filters, size, strides<span class="op">=</span><span class="dv">2</span>, padding<span class="op">=</span><span class="st">'same'</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                             kernel_initializer<span class="op">=</span>initializer, use_bias<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> apply_batchnorm:</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        result.add(tf.keras.layers.BatchNormalization())</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    result.add(tf.keras.layers.LeakyReLU())</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>down_model <span class="op">=</span> downsample(<span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>down_result <span class="op">=</span> down_model(tf.expand_dims(inp, <span class="dv">0</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(down_result.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(1, 128, 128, 3)</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> upsample(filters, size, apply_dropout<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    initializer <span class="op">=</span> tf.random_normal_initializer(<span class="fl">0.</span>, <span class="fl">0.02</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> tf.keras.Sequential()</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    result.add(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.Conv2DTranspose(filters, size, strides<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                                    padding<span class="op">=</span><span class="st">'same'</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                                    kernel_initializer<span class="op">=</span>initializer,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                                    use_bias<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    result.add(tf.keras.layers.BatchNormalization())</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> apply_dropout:</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        result.add(tf.keras.layers.Dropout(<span class="fl">0.5</span>))</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    result.add(tf.keras.layers.ReLU())</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>up_model <span class="op">=</span> upsample(<span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>up_result <span class="op">=</span> up_model(down_result)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (up_result.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(1, 256, 256, 3)</code></pre>
+</div>
+</div>
+<div id="cell-28" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Generator():</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>[<span class="dv">256</span>,<span class="dv">256</span>,<span class="dv">3</span>])</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    down_stack <span class="op">=</span> [</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">64</span>, <span class="dv">4</span>, apply_batchnorm<span class="op">=</span><span class="va">False</span>), <span class="co"># (bs, 128, 128, 64)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">128</span>, <span class="dv">4</span>), <span class="co"># (bs, 64, 64, 128)</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">256</span>, <span class="dv">4</span>), <span class="co"># (bs, 32, 32, 256)</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">512</span>, <span class="dv">4</span>), <span class="co"># (bs, 16, 16, 512)</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">512</span>, <span class="dv">4</span>), <span class="co"># (bs, 8, 8, 512)</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">512</span>, <span class="dv">4</span>), <span class="co"># (bs, 4, 4, 512)</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">512</span>, <span class="dv">4</span>), <span class="co"># (bs, 2, 2, 512)</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        downsample(<span class="dv">512</span>, <span class="dv">4</span>), <span class="co"># (bs, 1, 1, 512)</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    up_stack <span class="op">=</span> [</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        upsample(<span class="dv">512</span>, <span class="dv">4</span>, apply_dropout<span class="op">=</span><span class="va">True</span>), <span class="co"># (bs, 2, 2, 1024)</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        upsample(<span class="dv">512</span>, <span class="dv">4</span>, apply_dropout<span class="op">=</span><span class="va">True</span>), <span class="co"># (bs, 4, 4, 1024)</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        upsample(<span class="dv">512</span>, <span class="dv">4</span>, apply_dropout<span class="op">=</span><span class="va">True</span>), <span class="co"># (bs, 8, 8, 1024)</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        upsample(<span class="dv">512</span>, <span class="dv">4</span>), <span class="co"># (bs, 16, 16, 1024)</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        upsample(<span class="dv">256</span>, <span class="dv">4</span>), <span class="co"># (bs, 32, 32, 512)</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>        upsample(<span class="dv">128</span>, <span class="dv">4</span>), <span class="co"># (bs, 64, 64, 256)</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>        upsample(<span class="dv">64</span>, <span class="dv">4</span>), <span class="co"># (bs, 128, 128, 128)</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    initializer <span class="op">=</span> tf.random_normal_initializer(<span class="fl">0.</span>, <span class="fl">0.02</span>)</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    last <span class="op">=</span> tf.keras.layers.Conv2DTranspose(OUTPUT_CHANNELS, <span class="dv">4</span>,</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>                                         strides<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>                                         padding<span class="op">=</span><span class="st">'same'</span>,</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>                                         kernel_initializer<span class="op">=</span>initializer,</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>                                         activation<span class="op">=</span><span class="st">'tanh'</span>) <span class="co"># (bs, 256, 256, 3)</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> inputs</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Downsampling through the model</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    skips <span class="op">=</span> []</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> down <span class="kw">in</span> down_stack:</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> down(x)</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>        skips.append(x)</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>    skips <span class="op">=</span> <span class="bu">reversed</span>(skips[:<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Upsampling and establishing the skip connections</span></span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> up, skip <span class="kw">in</span> <span class="bu">zip</span>(up_stack, skips):</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> up(x)</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> tf.keras.layers.Concatenate()([x, skip])</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> last(x)</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tf.keras.Model(inputs<span class="op">=</span>inputs, outputs<span class="op">=</span>x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-29" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>generator <span class="op">=</span> Generator()</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>tf.keras.utils.plot_model(generator, show_shapes<span class="op">=</span><span class="va">True</span>, dpi<span class="op">=</span><span class="dv">64</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-30" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gen_output <span class="op">=</span> generator(inp[tf.newaxis,...], training<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(gen_output[<span class="dv">0</span>,...])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Generator loss</strong>
+<ul>
+<li>It is a sigmoid cross entropy loss of the generated images and an <strong>array of ones</strong>.</li>
+<li>The <a href="https://arxiv.org/abs/1611.07004">paper</a> also includes L1 loss which is MAE (mean absolute error) between the generated image and the target image.</li>
+<li>This allows the generated image to become structurally similar to the target image.</li>
+<li>The formula to calculate the total generator loss = gan_loss + LAMBDA * l1_loss, where LAMBDA = 100. This value was decided by the authors of the <a href="https://arxiv.org/abs/1611.07004">paper</a>.</li>
+</ul></li>
+</ul>
+<p>The training procedure for the generator is shown below:</p>
+<div id="cell-33" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>LAMBDA <span class="op">=</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-34" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generator_loss(disc_generated_output, gen_output, target):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    gan_loss <span class="op">=</span> loss_object(tf.ones_like(disc_generated_output), disc_generated_output)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mean absolute error</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    l1_loss <span class="op">=</span> tf.reduce_mean(tf.<span class="bu">abs</span>(target <span class="op">-</span> gen_output))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    total_gen_loss <span class="op">=</span> gan_loss <span class="op">+</span> (LAMBDA <span class="op">*</span> l1_loss)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_gen_loss, gan_loss, l1_loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://github.com/tensorflow/docs/blob/master/site/en/tutorials/generative/images/gen.png?raw=1" class="img-fluid figure-img"></p>
+<figcaption>Generator Update Image</figcaption>
+</figure>
+</div>
+</section>
+<section id="build-the-discriminator" class="level2">
+<h2 class="anchored" data-anchor-id="build-the-discriminator">Build the Discriminator</h2>
+<ul>
+<li>The Discriminator is a PatchGAN.</li>
+<li>Each block in the discriminator is (Conv -&gt; BatchNorm -&gt; Leaky ReLU)</li>
+<li>The shape of the output after the last layer is (batch_size, 30, 30, 1)</li>
+<li>Each 30x30 patch of the output classifies a 70x70 portion of the input image (such an architecture is called a PatchGAN).</li>
+<li>Discriminator receives 2 inputs.
+<ul>
+<li>Input image and the target image, which it should classify as real.</li>
+<li>Input image and the generated image (output of generator), which it should classify as fake.</li>
+<li>We concatenate these 2 inputs together in the code (<code>tf.concat([inp, tar], axis=-1)</code>)</li>
+</ul></li>
+</ul>
+<div id="cell-37" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Discriminator():</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    initializer <span class="op">=</span> tf.random_normal_initializer(<span class="fl">0.</span>, <span class="fl">0.02</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    inp <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>[<span class="dv">256</span>, <span class="dv">256</span>, <span class="dv">3</span>], name<span class="op">=</span><span class="st">'input_image'</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    tar <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>[<span class="dv">256</span>, <span class="dv">256</span>, <span class="dv">3</span>], name<span class="op">=</span><span class="st">'target_image'</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> tf.keras.layers.concatenate([inp, tar]) <span class="co"># (bs, 256, 256, channels*2)</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    down1 <span class="op">=</span> downsample(<span class="dv">64</span>, <span class="dv">4</span>, <span class="va">False</span>)(x) <span class="co"># (bs, 128, 128, 64)</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    down2 <span class="op">=</span> downsample(<span class="dv">128</span>, <span class="dv">4</span>)(down1) <span class="co"># (bs, 64, 64, 128)</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    down3 <span class="op">=</span> downsample(<span class="dv">256</span>, <span class="dv">4</span>)(down2) <span class="co"># (bs, 32, 32, 256)</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    zero_pad1 <span class="op">=</span> tf.keras.layers.ZeroPadding2D()(down3) <span class="co"># (bs, 34, 34, 256)</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    conv <span class="op">=</span> tf.keras.layers.Conv2D(<span class="dv">512</span>, <span class="dv">4</span>, strides<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>                                kernel_initializer<span class="op">=</span>initializer,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                                use_bias<span class="op">=</span><span class="va">False</span>)(zero_pad1) <span class="co"># (bs, 31, 31, 512)</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    batchnorm1 <span class="op">=</span> tf.keras.layers.BatchNormalization()(conv)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    leaky_relu <span class="op">=</span> tf.keras.layers.LeakyReLU()(batchnorm1)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    zero_pad2 <span class="op">=</span> tf.keras.layers.ZeroPadding2D()(leaky_relu) <span class="co"># (bs, 33, 33, 512)</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    last <span class="op">=</span> tf.keras.layers.Conv2D(<span class="dv">1</span>, <span class="dv">4</span>, strides<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>                                kernel_initializer<span class="op">=</span>initializer)(zero_pad2) <span class="co"># (bs, 30, 30, 1)</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tf.keras.Model(inputs<span class="op">=</span>[inp, tar], outputs<span class="op">=</span>last)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-38" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>discriminator <span class="op">=</span> Discriminator()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>tf.keras.utils.plot_model(discriminator, show_shapes<span class="op">=</span><span class="va">True</span>, dpi<span class="op">=</span><span class="dv">64</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-39" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>disc_out <span class="op">=</span> discriminator([inp[tf.newaxis,...], gen_output], training<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(disc_out[<span class="dv">0</span>,...,<span class="op">-</span><span class="dv">1</span>], vmin<span class="op">=-</span><span class="dv">20</span>, vmax<span class="op">=</span><span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'RdBu_r'</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Discriminator loss</strong> * The discriminator loss function takes 2 inputs; <strong>real images, generated images</strong> * real_loss is a sigmoid cross entropy loss of the <strong>real images</strong> and an <strong>array of ones(since these are the real images)</strong> * generated_loss is a sigmoid cross entropy loss of the <strong>generated images</strong> and an <strong>array of zeros(since these are the fake images)</strong> * Then the total_loss is the sum of real_loss and the generated_loss</p>
+<div id="cell-41" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>loss_object <span class="op">=</span> tf.keras.losses.BinaryCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-42" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> discriminator_loss(disc_real_output, disc_generated_output):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    real_loss <span class="op">=</span> loss_object(tf.ones_like(disc_real_output), disc_real_output)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    generated_loss <span class="op">=</span> loss_object(tf.zeros_like(disc_generated_output), disc_generated_output)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    total_disc_loss <span class="op">=</span> real_loss <span class="op">+</span> generated_loss</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_disc_loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The training procedure for the discriminator is shown below.</p>
+<p>To learn more about the architecture and the hyperparameters you can refer the <a href="https://arxiv.org/abs/1611.07004">paper</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://github.com/tensorflow/docs/blob/master/site/en/tutorials/generative/images/dis.png?raw=1" class="img-fluid figure-img"></p>
+<figcaption>Discriminator Update Image</figcaption>
+</figure>
+</div>
+</section>
+<section id="define-the-optimizers-and-checkpoint-saver" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-optimizers-and-checkpoint-saver">Define the Optimizers and Checkpoint-saver</h2>
+<div id="cell-46" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>generator_optimizer <span class="op">=</span> tf.keras.optimizers.Adam(<span class="fl">2e-4</span>, beta_1<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>discriminator_optimizer <span class="op">=</span> tf.keras.optimizers.Adam(<span class="fl">2e-4</span>, beta_1<span class="op">=</span><span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-47" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>checkpoint_dir <span class="op">=</span> <span class="st">'./training_checkpoints'</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>checkpoint_prefix <span class="op">=</span> os.path.join(checkpoint_dir, <span class="st">"ckpt"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>checkpoint <span class="op">=</span> tf.train.Checkpoint(generator_optimizer<span class="op">=</span>generator_optimizer,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                                 discriminator_optimizer<span class="op">=</span>discriminator_optimizer,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                                 generator<span class="op">=</span>generator,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                                 discriminator<span class="op">=</span>discriminator)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="generate-images" class="level2">
+<h2 class="anchored" data-anchor-id="generate-images">Generate Images</h2>
+<p>Write a function to plot some images during training.</p>
+<ul>
+<li>We pass images from the test dataset to the generator.</li>
+<li>The generator will then translate the input image into the output.</li>
+<li>Last step is to plot the predictions and <strong>voila!</strong></li>
+</ul>
+<p>Note: The <code>training=True</code> is intentional here since we want the batch statistics while running the model on the test dataset. If we use training=False, we will get the accumulated statistics learned from the training dataset (which we don’t want)</p>
+<div id="cell-50" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_images(model, test_input, tar):</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    prediction <span class="op">=</span> model(test_input, training<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">15</span>))</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    display_list <span class="op">=</span> [test_input[<span class="dv">0</span>], tar[<span class="dv">0</span>], prediction[<span class="dv">0</span>]]</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> [<span class="st">'Input Image'</span>, <span class="st">'Ground Truth'</span>, <span class="st">'Predicted Image'</span>]</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>        plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>        plt.title(title[i])</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># getting the pixel values between [0, 1] to plot it.</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>        plt.imshow(display_list[i] <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.5</span>)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>        plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-51" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example_input, example_target <span class="kw">in</span> test_dataset.take(<span class="dv">1</span>):</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    generate_images(generator, example_input, example_target)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-35-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="training" class="level2">
+<h2 class="anchored" data-anchor-id="training">Training</h2>
+<ul>
+<li>For each example input generate an output.</li>
+<li>The discriminator receives the input_image and the generated image as the first input. The second input is the input_image and the target_image.</li>
+<li>Next, we calculate the generator and the discriminator loss.</li>
+<li>Then, we calculate the gradients of loss with respect to both the generator and the discriminator variables(inputs) and apply those to the optimizer.</li>
+<li>Then log the losses to TensorBoard.</li>
+</ul>
+<div id="cell-53" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>EPOCHS <span class="op">=</span> <span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-54" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>log_dir<span class="op">=</span><span class="st">"logs/"</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>summary_writer <span class="op">=</span> tf.summary.create_file_writer(log_dir <span class="op">+</span> <span class="st">"fit/"</span> <span class="op">+</span> datetime.datetime.now().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">-%H%M%S"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-55" class="cell" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="at">@tf.function</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_step(input_image, target, epoch):</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> tf.GradientTape() <span class="im">as</span> gen_tape, tf.GradientTape() <span class="im">as</span> disc_tape:</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>        gen_output <span class="op">=</span> generator(input_image, training<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        disc_real_output <span class="op">=</span> discriminator([input_image, target], training<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        disc_generated_output <span class="op">=</span> discriminator([input_image, gen_output], training<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>        gen_total_loss, gen_gan_loss, gen_l1_loss <span class="op">=</span> generator_loss(disc_generated_output, gen_output, target)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>        disc_loss <span class="op">=</span> discriminator_loss(disc_real_output, disc_generated_output)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    generator_gradients <span class="op">=</span> gen_tape.gradient(gen_total_loss,</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>                                          generator.trainable_variables)</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    discriminator_gradients <span class="op">=</span> disc_tape.gradient(disc_loss,</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>                                               discriminator.trainable_variables)</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    generator_optimizer.apply_gradients(<span class="bu">zip</span>(generator_gradients,</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>                                          generator.trainable_variables))</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    discriminator_optimizer.apply_gradients(<span class="bu">zip</span>(discriminator_gradients,</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>                                              discriminator.trainable_variables))</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> summary_writer.as_default():</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>        tf.summary.scalar(<span class="st">'gen_total_loss'</span>, gen_total_loss, step<span class="op">=</span>epoch)</span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>        tf.summary.scalar(<span class="st">'gen_gan_loss'</span>, gen_gan_loss, step<span class="op">=</span>epoch)</span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>        tf.summary.scalar(<span class="st">'gen_l1_loss'</span>, gen_l1_loss, step<span class="op">=</span>epoch)</span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>        tf.summary.scalar(<span class="st">'disc_loss'</span>, disc_loss, step<span class="op">=</span>epoch)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The actual training loop:</p>
+<ul>
+<li>Iterates over the number of epochs.</li>
+<li>On each epoch it clears the display, and runs <code>generate_images</code> to show it’s progress.</li>
+<li>On each epoch it iterates over the training dataset, printing a ‘.’ for each example.</li>
+<li>It saves a checkpoint every 20 epochs.</li>
+</ul>
+<div id="cell-57" class="cell" data-execution_count="49">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit(train_ds, epochs, test_ds):</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>        start <span class="op">=</span> time.time()</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>        display.clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> example_input, example_target <span class="kw">in</span> test_ds.take(<span class="dv">1</span>):</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>            generate_images(generator, example_input, example_target)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Epoch: "</span>, epoch)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Train</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n, (input_image, target) <span class="kw">in</span> train_ds.<span class="bu">enumerate</span>():</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">'.'</span>, end<span class="op">=</span><span class="st">''</span>)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (n<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">100</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>()</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>            train_step(input_image, target, epoch)</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>()</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># saving (checkpoint) the model every 20 epochs</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (epoch <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="dv">20</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>            checkpoint.save(file_prefix <span class="op">=</span> checkpoint_prefix)</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span> (<span class="st">'Time taken for epoch </span><span class="sc">{}</span><span class="st"> is </span><span class="sc">{}</span><span class="st"> sec</span><span class="ch">\n</span><span class="st">'</span>.<span class="bu">format</span>(epoch <span class="op">+</span> <span class="dv">1</span>,</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>                                                            time.time()<span class="op">-</span>start))</span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>    checkpoint.save(file_prefix <span class="op">=</span> checkpoint_prefix)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This training loop saves logs you can easily view in TensorBoard to monitor the training progress. Working locally you would launch a separate tensorboard process. In a notebook, if you want to monitor with TensorBoard it’s easiest to launch the viewer before starting the training.</p>
+<p>To launch the viewer paste the following into a code-cell:</p>
+<div id="cell-59" class="cell" data-execution_count="50">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#docs_infra: no_execute</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># %load_ext tensorboard</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># %tensorboard --logdir {log_dir}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now run the training loop:</p>
+<div id="cell-61" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>fit(train_dataset, EPOCHS, test_dataset)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-41-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch:  116
+....................................................................................................
+....................................................................................................
+....................................................................................................
+...........................................</code></pre>
+</div>
+</div>
+<p>If you want to share the TensorBoard results <em>publicly</em> you can upload the logs to <a href="https://tensorboard.dev/">TensorBoard.dev</a> by copying the following into a code-cell.</p>
+<p>Note: This requires a Google account.</p>
+<pre><code>!tensorboard dev upload --logdir  {log_dir}</code></pre>
+<p>Caution: This command does not terminate. It’s designed to continuously upload the results of long-running experiments. Once your data is uploaded you need to stop it using the “interrupt execution” option in your notebook tool.</p>
+<p>You can view the <a href="https://tensorboard.dev/experiment/lZ0C6FONROaUMfjYkVyJqw">results of a previous run</a> of this notebook on <a href="https://tensorboard.dev/">TensorBoard.dev</a>.</p>
+<p>TensorBoard.dev is a managed experience for hosting, tracking, and sharing ML experiments with everyone.</p>
+<p>It can also included inline using an <code>&lt;iframe&gt;</code>:</p>
+<div id="cell-65" class="cell" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>display.IFrame(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    src<span class="op">=</span><span class="st">"https://tensorboard.dev/experiment/lZ0C6FONROaUMfjYkVyJqw"</span>,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="st">"100%"</span>,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="st">"1000px"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+
+        <iframe width="100%" height="1000px" src="https://tensorboard.dev/experiment/lZ0C6FONROaUMfjYkVyJqw" frameborder="0" allowfullscreen=""></iframe>
+        
+</div>
+</div>
+<p>Interpreting the logs from a GAN is more subtle than a simple classification or regression model. Things to look for::</p>
+<ul>
+<li>Check that neither model has “won”. If either the <code>gen_gan_loss</code> or the <code>disc_loss</code> gets very low it’s an indicator that this model is dominating the other, and you are not successfully training the combined model.</li>
+<li>The value <code>log(2) = 0.69</code> is a good reference point for these losses, as it indicates a perplexity of 2: That the discriminator is on average equally uncertain about the two options.</li>
+<li>For the <code>disc_loss</code> a value below <code>0.69</code> means the discriminator is doing better than random, on the combined set of real+generated images.</li>
+<li>For the <code>gen_gan_loss</code> a value below <code>0.69</code> means the generator i doing better than random at foolding the descriminator.</li>
+<li>As training progresses the <code>gen_l1_loss</code> should go down.</li>
+</ul>
+</section>
+<section id="restore-the-latest-checkpoint-and-test" class="level2">
+<h2 class="anchored" data-anchor-id="restore-the-latest-checkpoint-and-test">Restore the latest checkpoint and test</h2>
+<div id="cell-68" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls {checkpoint_dir}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>checkpoint          ckpt-1.data-00001-of-00002
+ckpt-1.data-00000-of-00002  ckpt-1.index</code></pre>
+</div>
+</div>
+<div id="cell-69" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># restoring the latest checkpoint in checkpoint_dir</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>&lt;tensorflow.python.training.tracking.util.CheckpointLoadStatus at 0x7f809c612c50&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="generate-using-test-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="generate-using-test-dataset">Generate using test dataset</h2>
+<div id="cell-71" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the trained model on a few examples from the test dataset</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> inp, tar <span class="kw">in</span> test_dataset.take(<span class="dv">5</span>):</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    generate_images(generator, inp, tar)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-45-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-45-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-45-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-45-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-pix2pix-TF-Tutorial_files/figure-html/cell-45-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../09-GAN/02-DCGAN-MNIST-Tutorial.html" class="pagination-link" aria-label="DCGAN Tutorial!">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">DCGAN Tutorial!</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../09-GAN/04-hjk-style-transfer.html" class="pagination-link" aria-label="04-hjk-style-transfer.html">
+        <span class="nav-page-text"><span class="chapter-title">04-hjk-style-transfer.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

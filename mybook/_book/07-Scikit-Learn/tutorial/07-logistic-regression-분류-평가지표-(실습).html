@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>경고 메시지 출력 표기 생략 – 기계학습 공부 자료들</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../07-Scikit-Learn/tutorial/08-결정트리-(DecisionTree)-(실습).html" rel="next">
+<link href="../../07-Scikit-Learn/tutorial/06-회귀-(regression)-(실습).html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-3778d3e438078121318a23701f9f68bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../07-Scikit-Learn/tutorial/01-최소제곱법-(OrdinaryLeastSquares)-(실습).html">Scikit-Learn Machine Learning</a></li><li class="breadcrumb-item"><a href="../../07-Scikit-Learn/tutorial/07-logistic-regression-분류-평가지표-(실습).html"><span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">기계학습 공부 자료들</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">환영합니다</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Python Foundation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/01-파이썬-자료구조.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">파이썬의 철학</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/02-파이썬-리스트-튜플.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">시퀀스, 집합형 자료구조</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/03-파이썬-세트-딕셔너리.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">시퀀스, 집합형 자료구조</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/04-파이썬-문자열.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">문자열</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/05-파이썬-연산.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">연산</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/06-파이썬-비교-논리-삼항연산자-조건문.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">비교연산자</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/07-파이썬-반복문.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">반복문</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/08-파이썬-Comprehension.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Comprehension 문법</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/09-파이썬-함수.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">함수(function)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/10-파이썬-내장함수.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">내장함수(built-in function)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/11-파이썬-패키지-모듈.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">패키지와 모듈의 관계</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-Python/12-파이썬-클래스-상속.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Python의 Class와 상속(inheritance)의 개념</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Analysis &amp; Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-Pandas/01-10mins-to-pandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">pandas 모듈 import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-Pandas/02-pandas-interpolation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">보간 (Interpolation)을 활용한 결측치 대입</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-Pandas/03-입찰공고-데이터분석.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">성공적인 입찰을 위한 데이터 분석 (토건, 토목, 시공 편)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../05-Pandas/04-코사인유사도-주식패턴.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">패키지 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../06-Visualization/01-pandas-visualization-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../06-Visualization/02-matplotlib-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../06-Visualization/03-seaborn-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">실습에 필요한 데이터 파일 다운로드</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Scikit-Learn Machine Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/01-최소제곱법-(OrdinaryLeastSquares)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">최소제곱법 (Least Ordinary Squares)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/02-경사하강법-(Gradient-Descent)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">경사하강법 (Gradient Descent)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/03-데이터셋-(Dataset)-다루기-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터 셋 (Dataset) 다루기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/04-데이터전처리-(Preprocessing)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">표준화 (Standardization)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/05-분류-(Classifications)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">분류 (Classification)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/06-회귀-(regression)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">회귀 (regression)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/07-logistic-regression-분류-평가지표-(실습).html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Logistic Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/08-결정트리-(DecisionTree)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">결정트리 or 의사결정나무 (Decision Tree)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/09-앙상블-(Ensemble)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">앙상블(Ensemble)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../07-Scikit-Learn/tutorial/10-비지도학습-(UnsupervisedLearning)-(실습).html" class="sidebar-item-text sidebar-link"><span class="chapter-title">비지도 학습 (Unsupervised Learning)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">PyTorch Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/00-텐서의-기초.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">스칼라, 벡터, 메트릭스, 텐서</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/01-텐서를-생성하는-다양한방법.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torch import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/02-경사하강법-구현.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/03-pytorch로-경사하강법-구현.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyTorch로 경사하강법(Gradient Descent) 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/04-DataSet과-DataLoader.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Case 1. 내장(built-in) 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/05-정형데이터-예측모델생성.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/06-정형데이터-예측모델생성-subclassing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플 데이터셋 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/07-torchvision-transform.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">모듈 import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/08-dnn-fashion-mnist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torch.utils.data.DataLoader</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/09-cnn-rps.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">train / validation 데이터셋 split</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/10-transfer-learning-cats-vs-dogs.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">train / validation 데이터셋 split</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/11-custom-image-loader.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터셋 다운로드 및 압축 해제</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/12-alexnet-implementation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">AlexNet 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/13-image-transforms.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">이미지 증강(Image Augmentation) 적용하기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/14-GoogleNet-Inception-Module.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GoogLeNet의 Inception Module 구현</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/16-torchtext-tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">torchtext 튜토리얼</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/17-embedding-lstm-text-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터프레임(DataFrame) 커스텀 데이터셋 클래스</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/23-seq2seq-챗봇.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">모듈 import &amp; 데이터 로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-PyTorch/24-seq2seq-with-attention-chatbot.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. 데이터 전처리</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">TensorFlow Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-TensorFlow/01_Simple_Linear_Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">김성훈 교수님의 “모두를 위한 딥러닝”의 강좌를 참고 하였습니다.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-TensorFlow/02_Multi_Variable_Linear_Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">02_Multi_Variable_Linear_Regression.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-TensorFlow/03_Logistic_Regression_With_Mnist_Data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">03_Logistic_Regression_With_Mnist_Data.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-TensorFlow/04_TensorBoard_Example.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">04_TensorBoard_Example.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../03-TensorFlow/05_Convolution_Neural_Network_With_Mnist_Dataset.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">05_Convolution_Neural_Network_With_Mnist_Dataset.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/01-삼성전자-주가예측/LSTM을_활용한_삼성전자_주가예측.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">날짜형 컬럼으로 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/03-tensorboard/TensorBoard_사용법.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터 로드 &amp; 전처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/04-transfer-learning/cats_vs_dogs-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/05-auto-encoder/01-basic-auto-encoder-MNIST.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/06-gradient-tape/GradientTape.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">샘플데이터 로드 (mnist)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/07-generate-text/01-generate-shakespear.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">텐서플로우 RNN 텍스트 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/09-LSTM/LSTM Layer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">LSTM Layer 파헤치기</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/11-CNN-models/01-LeNet-5.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">01-LeNet-5.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/13-chatbot/01-seq2seq-chatbot-no-attention.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Seq2Seq 모델을 활용한 챗봇 생성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../04-TensorFlow2.0/13-chatbot/02-seq2seq-chatbot-attention.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Seq2Seq 모델을 활용한 챗봇 생성</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">AutoML</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../11-AutoML/05-PyCaret/tutorials/00-Intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../11-AutoML/05-PyCaret/tutorials/01-Classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../11-AutoML/05-PyCaret/tutorials/02-Regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../11-AutoML/05-PyCaret/tutorials/03-Association-Rules.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../11-AutoML/05-PyCaret/tutorials/04-Anomaly-Detection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">PyCaret 설치</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Advanced Deep Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../08-XAI/CAM.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">CAM.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../08-XAI/GRAD_CAM.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GRAD_CAM.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../09-GAN/01-VanillaGAN-MNIST-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Vanilla Gan Tutorial!</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../09-GAN/02-DCGAN-MNIST-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">DCGAN Tutorial!</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../09-GAN/03-pix2pix-TF-Tutorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Copyright 2019 The TensorFlow Authors.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../09-GAN/04-hjk-style-transfer.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">04-hjk-style-transfer.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../10-RL/HJK_DQN_R1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_DQN_R1.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../10-RL/HJK_PG_REINFORCE.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_PG_REINFORCE.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../10-RL/HJK_PG_AC.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">HJK_PG_AC.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">NLP &amp; Generative AI</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../12-HuggingFace/01-Text-Classification-Simple.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">데이터셋 다운로드</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../12-HuggingFace/03-huggingface-bert-kor-text-classification.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">토큰화가 적용된 데이터셋</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../13-ChatGPT/01-chatgpt.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">openai 관련 설정</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../13-ChatGPT/02-news-article.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">진행 과정</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Kaggle Competitions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-Kaggle/01-Kaggle/01-titanic/titanic-data-analysis-V1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">titanic-data-analysis-V1.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-Kaggle/01-Kaggle/01-titanic/titanic-preprocessing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-Kaggle/01-Kaggle/01-titanic/titanic-randomforest-0.80382.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">titanic-randomforest-0.80382.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link active" data-scroll-target="#logistic-regression">Logistic Regression</a></li>
+  <li><a href="#sigmoid-함수-그리기" id="toc-sigmoid-함수-그리기" class="nav-link" data-scroll-target="#sigmoid-함수-그리기">Sigmoid 함수 그리기</a></li>
+  <li><a href="#로지스틱-회귀-실습-위스콘신-유방암-환자" id="toc-로지스틱-회귀-실습-위스콘신-유방암-환자" class="nav-link" data-scroll-target="#로지스틱-회귀-실습-위스콘신-유방암-환자">로지스틱 회귀 실습: 위스콘신 유방암 환자</a></li>
+  <li><a href="#오차-행렬-confusion-matrix" id="toc-오차-행렬-confusion-matrix" class="nav-link" data-scroll-target="#오차-행렬-confusion-matrix">오차 행렬 (Confusion Matrix)</a></li>
+  <li><a href="#정밀도-precision" id="toc-정밀도-precision" class="nav-link" data-scroll-target="#정밀도-precision">정밀도 (Precision)</a></li>
+  <li><a href="#재현율-recall-민감도" id="toc-재현율-recall-민감도" class="nav-link" data-scroll-target="#재현율-recall-민감도">재현율 (Recall), 민감도</a></li>
+  <li><a href="#f1-score" id="toc-f1-score" class="nav-link" data-scroll-target="#f1-score">F1 Score</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../07-Scikit-Learn/tutorial/01-최소제곱법-(OrdinaryLeastSquares)-(실습).html">Scikit-Learn Machine Learning</a></li><li class="breadcrumb-item"><a href="../../07-Scikit-Learn/tutorial/07-logistic-regression-분류-평가지표-(실습).html"><span class="chapter-title">Logistic Regression</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">경고 메시지 출력 표기 생략</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cell-0" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Math</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 시각화 차트 사이즈 설정</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+<ul>
+<li>선형 회귀 방식을 이용한 이진 분류 알고리즘</li>
+<li>분류 레이블 : 0 or 1</li>
+<li>0~1 범위를 예측 결과로 갖는 모델 필요
+<ul>
+<li>가설 결과에 Sigmoid 함수 적용</li>
+</ul></li>
+<li>Logistic, sigmoid 함수
+<ul>
+<li>S자 모양의 함수</li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(\displaystyle s(z) = \frac{1}{1+e^{-z}}\)</span></p>
+<p><span class="math inline">\(z\)</span> 값을 0과 1사이의 값으로 바꾸는 함수</p>
+<p><strong>Sigmoid 함수 원리</strong></p>
+<p><span class="math inline">\(\frac{1}{1} = 1\)</span>인데, 분모 1에다 0보다 크거나 같은 어떤 수를 더 하면 그 결과는 1 보다 클수 없다.</p>
+<p>분모에 더 할 값은 <span class="math inline">\(e^{-z}\)</span>, 이 값은 어떤 <span class="math inline">\(z\)</span>가 주어져도 0보다 작아 지지 않는다.</p>
+<p><span class="math inline">\(e^{-z}\)</span>는 <span class="math inline">\(z\)</span>의 값이 크면 클 수록 0에 가까운 작은 수가 되고 <span class="math inline">\(z\)</span>값이 작으면 무한대에 가까운 큰 수가 된다</p>
+<p>따라서 <span class="math inline">\(z\)</span>의 값이 크면 <span class="math inline">\(e^{-z}\)</span>의 값이 작아져서 <span class="math inline">\(\frac{1}{1+e^{-z}}\)</span>의 값은 1에 가까워 지고 그 반대는 0에 가까워 진다.</p>
+<ul>
+<li>sklearn API
+<ul>
+<li><code>sklearn.linear_model.LogisticRegression</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="sigmoid-함수-그리기" class="level2">
+<h2 class="anchored" data-anchor-id="sigmoid-함수-그리기">Sigmoid 함수 그리기</h2>
+<p><span class="math inline">\(\Large sigmoid(z) = \frac{1}{1+e^{-z}}\)</span></p>
+<p><code>sigmoid(z)</code> 함수를 정의한 후 sigmoid 함수를 구현해 주세요</p>
+<p>hint. <code>np.exp()</code>를 활용합니다.</p>
+<div id="cell-5" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 코드를 입력해 주세요</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(z):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-6" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 코드검증</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sigmoid(x)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="data:image/png;base64,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"></p>
+</section>
+<section id="로지스틱-회귀-실습-위스콘신-유방암-환자" class="level2">
+<h2 class="anchored" data-anchor-id="로지스틱-회귀-실습-위스콘신-유방암-환자">로지스틱 회귀 실습: 위스콘신 유방암 환자</h2>
+<p>
+<strong>[출력 결과]</strong>
+</p>
+<pre><figure size="" 720x504="" with="" 1="" axes="" class="figure"></figure></pre>
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="6a65a5af-e7c3-423c-a8e9-f932ace078be">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>load_breast_cancer()</code> 를 로드하여 <code>cancer</code>변수에 대입합니다.</p>
+<div id="cell-12" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 코드를 입력해 주세요</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cancer <span class="op">=</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>df</code> 변수를 만들어 데이터프레임을 생성합니다.</p>
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:473}}" data-outputid="ee109b71-0364-4510-f735-5d995f02418a">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 코드를 입력해 주세요</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>
+<strong>[출력 결과]</strong>
+</p>
+<div>
+
+<table class="dataframe table table-sm table-striped small">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+mean radius
+</th>
+<th>
+mean texture
+</th>
+<th>
+mean perimeter
+</th>
+<th>
+mean area
+</th>
+<th>
+mean smoothness
+</th>
+<th>
+mean compactness
+</th>
+<th>
+mean concavity
+</th>
+<th>
+mean concave points
+</th>
+<th>
+mean symmetry
+</th>
+<th>
+mean fractal dimension
+</th>
+<th>
+…
+</th>
+<th>
+worst texture
+</th>
+<th>
+worst perimeter
+</th>
+<th>
+worst area
+</th>
+<th>
+worst smoothness
+</th>
+<th>
+worst compactness
+</th>
+<th>
+worst concavity
+</th>
+<th>
+worst concave points
+</th>
+<th>
+worst symmetry
+</th>
+<th>
+worst fractal dimension
+</th>
+<th>
+target
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+17.99
+</td>
+<td>
+10.38
+</td>
+<td>
+122.80
+</td>
+<td>
+1001.0
+</td>
+<td>
+0.11840
+</td>
+<td>
+0.27760
+</td>
+<td>
+0.30010
+</td>
+<td>
+0.14710
+</td>
+<td>
+0.2419
+</td>
+<td>
+0.07871
+</td>
+<td>
+…
+</td>
+<td>
+17.33
+</td>
+<td>
+184.60
+</td>
+<td>
+2019.0
+</td>
+<td>
+0.16220
+</td>
+<td>
+0.66560
+</td>
+<td>
+0.7119
+</td>
+<td>
+0.2654
+</td>
+<td>
+0.4601
+</td>
+<td>
+0.11890
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+20.57
+</td>
+<td>
+17.77
+</td>
+<td>
+132.90
+</td>
+<td>
+1326.0
+</td>
+<td>
+0.08474
+</td>
+<td>
+0.07864
+</td>
+<td>
+0.08690
+</td>
+<td>
+0.07017
+</td>
+<td>
+0.1812
+</td>
+<td>
+0.05667
+</td>
+<td>
+…
+</td>
+<td>
+23.41
+</td>
+<td>
+158.80
+</td>
+<td>
+1956.0
+</td>
+<td>
+0.12380
+</td>
+<td>
+0.18660
+</td>
+<td>
+0.2416
+</td>
+<td>
+0.1860
+</td>
+<td>
+0.2750
+</td>
+<td>
+0.08902
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+19.69
+</td>
+<td>
+21.25
+</td>
+<td>
+130.00
+</td>
+<td>
+1203.0
+</td>
+<td>
+0.10960
+</td>
+<td>
+0.15990
+</td>
+<td>
+0.19740
+</td>
+<td>
+0.12790
+</td>
+<td>
+0.2069
+</td>
+<td>
+0.05999
+</td>
+<td>
+…
+</td>
+<td>
+25.53
+</td>
+<td>
+152.50
+</td>
+<td>
+1709.0
+</td>
+<td>
+0.14440
+</td>
+<td>
+0.42450
+</td>
+<td>
+0.4504
+</td>
+<td>
+0.2430
+</td>
+<td>
+0.3613
+</td>
+<td>
+0.08758
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+11.42
+</td>
+<td>
+20.38
+</td>
+<td>
+77.58
+</td>
+<td>
+386.1
+</td>
+<td>
+0.14250
+</td>
+<td>
+0.28390
+</td>
+<td>
+0.24140
+</td>
+<td>
+0.10520
+</td>
+<td>
+0.2597
+</td>
+<td>
+0.09744
+</td>
+<td>
+…
+</td>
+<td>
+26.50
+</td>
+<td>
+98.87
+</td>
+<td>
+567.7
+</td>
+<td>
+0.20980
+</td>
+<td>
+0.86630
+</td>
+<td>
+0.6869
+</td>
+<td>
+0.2575
+</td>
+<td>
+0.6638
+</td>
+<td>
+0.17300
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+20.29
+</td>
+<td>
+14.34
+</td>
+<td>
+135.10
+</td>
+<td>
+1297.0
+</td>
+<td>
+0.10030
+</td>
+<td>
+0.13280
+</td>
+<td>
+0.19800
+</td>
+<td>
+0.10430
+</td>
+<td>
+0.1809
+</td>
+<td>
+0.05883
+</td>
+<td>
+…
+</td>
+<td>
+16.67
+</td>
+<td>
+152.20
+</td>
+<td>
+1575.0
+</td>
+<td>
+0.13740
+</td>
+<td>
+0.20500
+</td>
+<td>
+0.4000
+</td>
+<td>
+0.1625
+</td>
+<td>
+0.2364
+</td>
+<td>
+0.07678
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+…
+</th>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+</tr>
+<tr>
+<th>
+564
+</th>
+<td>
+21.56
+</td>
+<td>
+22.39
+</td>
+<td>
+142.00
+</td>
+<td>
+1479.0
+</td>
+<td>
+0.11100
+</td>
+<td>
+0.11590
+</td>
+<td>
+0.24390
+</td>
+<td>
+0.13890
+</td>
+<td>
+0.1726
+</td>
+<td>
+0.05623
+</td>
+<td>
+…
+</td>
+<td>
+26.40
+</td>
+<td>
+166.10
+</td>
+<td>
+2027.0
+</td>
+<td>
+0.14100
+</td>
+<td>
+0.21130
+</td>
+<td>
+0.4107
+</td>
+<td>
+0.2216
+</td>
+<td>
+0.2060
+</td>
+<td>
+0.07115
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+565
+</th>
+<td>
+20.13
+</td>
+<td>
+28.25
+</td>
+<td>
+131.20
+</td>
+<td>
+1261.0
+</td>
+<td>
+0.09780
+</td>
+<td>
+0.10340
+</td>
+<td>
+0.14400
+</td>
+<td>
+0.09791
+</td>
+<td>
+0.1752
+</td>
+<td>
+0.05533
+</td>
+<td>
+…
+</td>
+<td>
+38.25
+</td>
+<td>
+155.00
+</td>
+<td>
+1731.0
+</td>
+<td>
+0.11660
+</td>
+<td>
+0.19220
+</td>
+<td>
+0.3215
+</td>
+<td>
+0.1628
+</td>
+<td>
+0.2572
+</td>
+<td>
+0.06637
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+566
+</th>
+<td>
+16.60
+</td>
+<td>
+28.08
+</td>
+<td>
+108.30
+</td>
+<td>
+858.1
+</td>
+<td>
+0.08455
+</td>
+<td>
+0.10230
+</td>
+<td>
+0.09251
+</td>
+<td>
+0.05302
+</td>
+<td>
+0.1590
+</td>
+<td>
+0.05648
+</td>
+<td>
+…
+</td>
+<td>
+34.12
+</td>
+<td>
+126.70
+</td>
+<td>
+1124.0
+</td>
+<td>
+0.11390
+</td>
+<td>
+0.30940
+</td>
+<td>
+0.3403
+</td>
+<td>
+0.1418
+</td>
+<td>
+0.2218
+</td>
+<td>
+0.07820
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+567
+</th>
+<td>
+20.60
+</td>
+<td>
+29.33
+</td>
+<td>
+140.10
+</td>
+<td>
+1265.0
+</td>
+<td>
+0.11780
+</td>
+<td>
+0.27700
+</td>
+<td>
+0.35140
+</td>
+<td>
+0.15200
+</td>
+<td>
+0.2397
+</td>
+<td>
+0.07016
+</td>
+<td>
+…
+</td>
+<td>
+39.42
+</td>
+<td>
+184.60
+</td>
+<td>
+1821.0
+</td>
+<td>
+0.16500
+</td>
+<td>
+0.86810
+</td>
+<td>
+0.9387
+</td>
+<td>
+0.2650
+</td>
+<td>
+0.4087
+</td>
+<td>
+0.12400
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+568
+</th>
+<td>
+7.76
+</td>
+<td>
+24.54
+</td>
+<td>
+47.92
+</td>
+<td>
+181.0
+</td>
+<td>
+0.05263
+</td>
+<td>
+0.04362
+</td>
+<td>
+0.00000
+</td>
+<td>
+0.00000
+</td>
+<td>
+0.1587
+</td>
+<td>
+0.05884
+</td>
+<td>
+…
+</td>
+<td>
+30.37
+</td>
+<td>
+59.16
+</td>
+<td>
+268.6
+</td>
+<td>
+0.08996
+</td>
+<td>
+0.06444
+</td>
+<td>
+0.0000
+</td>
+<td>
+0.0000
+</td>
+<td>
+0.2871
+</td>
+<td>
+0.07039
+</td>
+<td>
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+569 rows × 31 columns
+</p>
+</div>
+<p><code>scaler</code> 변수에 표준화(StandardScaler)를 생성하고 <code>target</code> 컬럼을 제외한 X 변수에 대한 표준화를 진행합니다.</p>
+<div id="cell-17" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 코드를 입력해 주세요</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>scaled <span class="op">=</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>데이터셋을 분할합니다</li>
+<li><code>random_state=10</code>으로 설정</li>
+<li>stratify 지정</li>
+</ul>
+<div id="cell-19" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># train_test_split</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x_train, x_test, y_train, y_test <span class="op">=</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>LogisticRegression</code>을 학습한 뒤 예측까지 진행합니다.</p>
+<div id="cell-21" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 코드를 입력해 주세요</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lr_clf <span class="op">=</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lr_clf.</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>정확도(accuracy)</code>를 측정합니다.</p>
+<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="d66d1bbb-1bae-4266-c0c1-3ddb68eca111">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 코드를 입력해 주세요</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="오차-행렬-confusion-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="오차-행렬-confusion-matrix">오차 행렬 (Confusion Matrix)</h2>
+<div id="cell-25" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:518}}" data-outputid="b5a293b5-c893-4ecb-cccf-f9ae9e9c2cac">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Image(<span class="st">'https://skappal7.files.wordpress.com/2018/08/confusion-matrix.jpg'</span>, width<span class="op">=</span><span class="dv">700</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-27" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:51}}" data-outputid="ce8c84cb-d53d-4f7c-9c96-3caa9cdb94d1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:468}}" data-outputid="2d6cf1f2-8767-4ce4-c530-6d87580223cc">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cm, annot<span class="op">=</span><span class="va">True</span>, annot_kws<span class="op">=</span>{<span class="st">"size"</span>: <span class="dv">20</span>}, cmap<span class="op">=</span><span class="st">'YlOrBr'</span>, cbar<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Actual'</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-30" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>TN, FP, FN, TP <span class="op">=</span> cm.ravel()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-31" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>TN, FP, FN, TP</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="정밀도-precision" class="level2">
+<h2 class="anchored" data-anchor-id="정밀도-precision">정밀도 (Precision)</h2>
+<p>Positive로 예측한 전체 건수에서 옳게 예측한 건수의 비율</p>
+<ul>
+<li>중요 사례: 스팸 분류 (스팸으로 분류한 메일 중에서 중요 메일이 있는 경우</li>
+</ul>
+<div id="cell-34" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tn, fp, fn, tp <span class="op">=</span> confusion_matrix([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>]).ravel()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-35" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>precision <span class="op">=</span> TP <span class="op">/</span> (FP <span class="op">+</span> TP)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="9648ea76-b815-4de2-96af-c74f6f3bf109">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>precision</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-37" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="291410a0-45ea-4257-ea47-1bdf4ce914eb">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>precision_score(y_test, pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="재현율-recall-민감도" class="level2">
+<h2 class="anchored" data-anchor-id="재현율-recall-민감도">재현율 (Recall), 민감도</h2>
+<p>실제 Positive인 전체 건수에서 옳게 예측한 건수의 비율 - 중요 사례: 암 진단 (암 환자를 건강으로 분류하는 경우) - TPR (True Positive Rate)</p>
+<div id="cell-41" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>recall <span class="op">=</span> TP <span class="op">/</span> (FN <span class="op">+</span> TP)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-42" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="8e7ea6b8-b586-4193-ffdd-c0042666b2fb">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>recall</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-43" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> recall_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-44" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="f731d4b9-ade2-49f5-db04-d9c94021435c">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>recall_score(y_test, pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="f1-score" class="level2">
+<h2 class="anchored" data-anchor-id="f1-score">F1 Score</h2>
+<p>재현율과 정밀도의 균형을 나타내는 수치</p>
+<p><span class="math inline">\({F1 Score}=2*\: \frac{precision\:*\: recall}{precision+recall}\)</span></p>
+<div id="cell-48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="caaffef8-9123-435d-bdcb-14b2811c9213">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">*</span> (precision <span class="op">*</span> recall) <span class="op">/</span> (precision <span class="op">+</span> recall)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-49" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> f1_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="b4157dcf-c8a6-4961-a737-345846c42f2d">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>f1_score(y_test, pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../07-Scikit-Learn/tutorial/06-회귀-(regression)-(실습).html" class="pagination-link" aria-label="회귀 (regression)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">회귀 (regression)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../07-Scikit-Learn/tutorial/08-결정트리-(DecisionTree)-(실습).html" class="pagination-link" aria-label="결정트리 or 의사결정나무 (Decision Tree)">
+        <span class="nav-page-text"><span class="chapter-title">결정트리 or 의사결정나무 (Decision Tree)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

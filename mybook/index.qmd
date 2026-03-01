@@ -1,0 +1,15 @@
+# 환영합니다 {.unnumbered}
+
+머신러닝 및 딥러닝 학습을 위한 리소스 모음집입니다.
+
+이 책은 다음과 같은 내용을 포함하고 있습니다:
+
+- **Python Foundation**: 파이썬 기초 문법 및 자료구조
+- **Data Analysis & Visualization**: Pandas와 Matplotlib, Seaborn을 활용한 데이터 분석 및 시각화
+- **Scikit-Learn Machine Learning**: 사이킷런을 활용한 전통적인 머신러닝 기법
+- **Deep Learning Frameworks**: PyTorch와 TensorFlow를 활용한 딥러닝 구현
+- **Advanced Topics**: XAI, GAN, 강화학습 등 심화 주제
+- **NLP & Generative AI**: HuggingFace와 ChatGPT 활용법
+- **Kaggle Competitions**: 캐글 경진대회 실전 예제
+
+이 자료들이 여러분의 학습에 도움이 되기를 바랍니다.
