@@ -146,7 +146,7 @@ protobuf==3.19.4
 psutil==5.9.1
 pure-eval==0.2.2
 pyarrow==9.0.0
-pyasn1==0.4.8
+pyasn1==0.6.4
 pyasn1-modules==0.2.8
 pycaret==3.0.0rc3
 pycparser==2.21
