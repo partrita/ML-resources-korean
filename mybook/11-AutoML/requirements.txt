@@ -59,7 +59,7 @@ frozenlist==1.3.1
 fsspec==2022.7.1
 gast==0.4.0
 gitdb==4.0.9
-GitPython==3.1.58
+GitPython==3.1.62
 google-auth==2.11.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
@@ -121,7 +121,7 @@ nltk==3.10.3
 notebook==6.4.12
 numba==0.55.2
 numpy==1.22.0
-oauthlib==3.3.1
+oauthlib==4.0.0
 opendata-kr==0.0.4
 opt-einsum==3.3.0
 orjson==3.12.0
@@ -215,7 +215,7 @@ typing_extensions==4.3.0
 tzdata==2022.2
 tzlocal==4.2
 ujson==5.13.0
-urllib3==2.7.0
+urllib3==2.8.0
 validators==0.20.0
 varname==0.8.3
 watchdog==2.1.9
